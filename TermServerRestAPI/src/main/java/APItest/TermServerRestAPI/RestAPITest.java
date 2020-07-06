@@ -3,10 +3,7 @@ package APItest.TermServerRestAPI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Random;
 
@@ -44,13 +41,10 @@ public class RestAPITest implements Runnable
     	}
     }
     
-    public static int getRandom(int[] array) {
-    	int rnd = new Random().nextInt(array.length);
-    	return array[rnd];
-    }
     //Fixa så man gör flera requests med multitrådning. DONE
     //Fixa så att URL-strängen tar params (så vi kan mata in olika concepts bland annat) DONE
-    //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime.
+    //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime. IN PROGRESS
+    //Fixa så att vi bara tittar på vissa key-value pair i JSON objektet som returneras. IN PROGRESS
     //Bygg test-scenarion
 
 	@Override
@@ -133,17 +127,9 @@ public class RestAPITest implements Runnable
 			thread.start ();
 		}
 	}
+	
+	public static int getRandom(int[] array) {
+    	int rnd = new Random().nextInt(array.length);
+    	return array[rnd];
+    }
 }
-
-/**System.out.println("Running " +  threadName );
-try {
-   for(int i = 4; i > 0; i--) {
-      System.out.println("Thread: " + threadName + ", " + i);
-      // Let the thread sleep for a while.
-      Thread.sleep(50);
-   }
-} catch (InterruptedException e) {
-   System.out.println("Thread " +  threadName + " interrupted.");
-}
-System.out.println("Thread " +  threadName + " exiting.");
-**/

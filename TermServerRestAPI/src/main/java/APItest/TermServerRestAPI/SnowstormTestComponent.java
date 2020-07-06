@@ -1,5 +1,6 @@
 package APItest.TermServerRestAPI;
 
+//Generates path, information and relevant values to look at for the endpoint used
 public class SnowstormTestComponent {
 	private String information = "";
 	

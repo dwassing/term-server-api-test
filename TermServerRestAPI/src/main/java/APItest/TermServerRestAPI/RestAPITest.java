@@ -53,7 +53,6 @@ public class RestAPITest implements Runnable
 			if (this.threadName.equals("snowowl")){
 				try {
 		    		int selectedId = getRandom(conceptIds);
-		    		//String stringId = Integer.toString(selectedId);
 		    		String host = "http://localhost:8080/snowowl/";
 		    		String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
 		    		String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
@@ -83,7 +82,6 @@ public class RestAPITest implements Runnable
 			} else if (this.threadName.equals("snowstorm")) {
 				try {
 		    		int selectedId = getRandom(conceptIds);
-		    		//String stringId = Integer.toString(selectedId);
 		    		String host = "http://localhost:8080/snowowl/"; //CHANGE THIS TO SNOWSTORM URL
 		    		String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
 		    		String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId);

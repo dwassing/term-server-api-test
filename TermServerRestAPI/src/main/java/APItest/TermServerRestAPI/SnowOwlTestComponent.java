@@ -1,9 +1,6 @@
 package APItest.TermServerRestAPI;
 
-
-//URL encoder seems to not be needed after all.
-
-//Generates endpoint used, request method, and extra params for the main function
+//Generates path, information and relevant values to look at for the endpoint used
 public class SnowOwlTestComponent {
 
 	//returns the path needed to access the direct endpoint, depending on type of query done
@@ -18,6 +15,7 @@ public class SnowOwlTestComponent {
 		return "";
 	}
 	
+	//returns additional information such as extra parameters
 	public String getEndpointInfo(String queryType, int code) {
 		switch(queryType) {
 		case "concept-query":
@@ -28,6 +26,7 @@ public class SnowOwlTestComponent {
 		return "";
 	}
 	
+	//returns the values of the JSON objects that we are interested in
 	public String getInterestingValue(String queryType, int code) {
 		switch(queryType) {
 		case "concept-query":

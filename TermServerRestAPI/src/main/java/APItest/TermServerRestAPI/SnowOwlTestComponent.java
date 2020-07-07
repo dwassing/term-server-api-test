@@ -19,7 +19,7 @@ public class SnowOwlTestComponent {
 	public String getEndpointInfo(String queryType, int code) {
 		switch(queryType) {
 		case "concept-query":
-			return Integer.toString(code);
+			return Integer.toString(code) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
 		case "concept-lookup":
 			return "$lookup?code=" + Integer.toString(code) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
 		}
@@ -27,10 +27,10 @@ public class SnowOwlTestComponent {
 	}
 	
 	//returns the values of the JSON objects that we are interested in
-	public String getInterestingValue(String queryType, int code) {
+	public String getInterestingJsonKeyValue(String queryType, int code) {
 		switch(queryType) {
 		case "concept-query":
-			return ""; //TODO: ADD KEY VALUE HERE
+			return "term"; //TODO: ADD KEY VALUE HERE
 		case "concept-lookup":
 			return ""; //TODO: ADD KEY VALUE HERE
 		}

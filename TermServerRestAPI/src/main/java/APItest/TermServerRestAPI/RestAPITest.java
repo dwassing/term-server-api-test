@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Random;
+
+import org.json.JSONObject;
 
 public class RestAPITest implements Runnable
 {
@@ -38,13 +41,15 @@ public class RestAPITest implements Runnable
     	} else if (args[0].equals("snowstorm")) {
     		RestAPITest R3 = new RestAPITest("snowstorm", args[1]);
     		R3.start();
+    	} else {
+    		System.out.println("Bad server argument. Exiting.");
     	}
     }
     
     //Fixa så man gör flera requests med multitrådning. DONE
     //Fixa så att URL-strängen tar params (så vi kan mata in olika concepts bland annat) DONE
     //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime. IN PROGRESS
-    //Fixa så att vi bara tittar på vissa key-value pair i JSON objektet som returneras. IN PROGRESS
+    //Fixa så att vi bara tittar på vissa key-value pair i JSON objektet som returneras. TYP DONE
     //Bygg test-scenarion
 
 	@Override
@@ -56,8 +61,9 @@ public class RestAPITest implements Runnable
 		    		String host = "http://localhost:8080/snowowl/";
 		    		String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
 		    		String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
+		    		String targetValue = snowOwlTestComponent.getInterestingJsonKeyValue(queryType, selectedId);
 		    		
-		    		//URL is made up of: host path, system-name, path-to-endpoint, endpoint-specific-info
+		    		//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 		    		//System.out.println(host + path + info); //debug
 		            URL url = new URL(host + path + info);
 		            
@@ -70,10 +76,20 @@ public class RestAPITest implements Runnable
 		            }
 		            InputStreamReader in = new InputStreamReader(conn.getInputStream());
 		            BufferedReader br = new BufferedReader(in);
-		            String output;
-		            while ((output = br.readLine()) != null) {
-		                System.out.println(output);
+		            
+		            StringBuilder sb = new StringBuilder();
+		            //String output = ""; //debug
+		            String temp;
+		            while ((temp = br.readLine()) != null) {
+		            	//output = output + temp; //debug
+		            	sb.append(temp);
 		            }
+		            //System.out.println(output); //debug
+		            
+		            //Build the object and print interesting info.
+		            JSONObject jsonObject = new JSONObject(sb.toString());
+		            System.out.println(getJsonKeyValue(jsonObject, targetValue)); //TODO: fix so it inherits
+		            
 		            conn.disconnect();
 		
 		        } catch (IOException e) {
@@ -86,7 +102,7 @@ public class RestAPITest implements Runnable
 		    		String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
 		    		String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId);
 		    		
-		    		//URL is made up of: host path, system-name, path-to-endpoint, endpoint-specific-info
+		    		//URL is made up of: host and port, system-name (?), path-to-endpoint, endpoint-specific-info
 		    		//System.out.println(host + path + info); //debug
 		            URL url = new URL(host + path + info);
 		            
@@ -126,8 +142,29 @@ public class RestAPITest implements Runnable
 		}
 	}
 	
-	public static int getRandom(int[] array) {
+	private static int getRandom(int[] array) {
     	int rnd = new Random().nextInt(array.length);
     	return array[rnd];
     }
+	
+	public static String getJsonKeyValue(JSONObject jsonObj, String target) {
+		Iterator<String> keys = jsonObj.keys();
+		String targetValue = "Failed to find the requested parameter. Check your key syntax.";
+		while (keys.hasNext()){
+			String key = keys.next();
+	    	//Need to use Object because JSONObject and String both inherit from Object
+	        Object keyValue = jsonObj.get(key);
+
+	        //recursive iteration if objects are nested
+	        //System.out.println("key: "+ key + " value: " + keyValue + " target: " + target); //debug
+	        if (keyValue instanceof JSONObject) {
+	        	//System.out.println("Found JSON" + keyValue); //debug
+	            targetValue = getJsonKeyValue((JSONObject)keyValue, target);
+	        } else if (key.equals(target)) {
+	        	System.out.println("Found target: " + target + " with value " + keyValue);
+	        	return (String)keyValue;
+	        }
+	    }
+	    return targetValue;
+	}
 }

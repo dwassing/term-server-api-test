@@ -79,13 +79,13 @@ public class RestAPITest implements Runnable
 		            BufferedReader br = new BufferedReader(in);
 		            
 		            StringBuilder sb = new StringBuilder();
-		            String output = ""; //debug
+		            //String output = ""; //debug
 		            String temp;
 		            while ((temp = br.readLine()) != null) {
-		            	output = output + temp; //debug
+		            	//output = output + temp; //debug
 		            	sb.append(temp);
 		            }
-		            System.out.println(output); //debug
+		            //System.out.println(output); //debug
 		            
 		            //Build the object and print interesting info.
 		            JSONObject jsonObject = new JSONObject(sb.toString());
@@ -156,12 +156,12 @@ public class RestAPITest implements Runnable
 	        Object keyValue = jsonObj.get(key);
 
 	        //recursive iteration if objects are nested
-	        System.out.println("key: "+ key + " value: " + keyValue + " target: " + target); //debug
+	        //System.out.println("key: "+ key + " value: " + keyValue + " target: " + target); //debug
 	        if (keyValue instanceof JSONObject) {
-	        	System.out.println("Found JSON" + keyValue); //debug
+	        	//System.out.println("Found JSON" + keyValue); //debug
 	            targetValues.addAll(getJsonKeyValue((JSONObject)keyValue, target));
 	        } else if (keyValue instanceof JSONArray) {
-	        	System.out.println("Found ARRAY " + keyValue); //debug
+	        	//System.out.println("Found ARRAY " + keyValue); //debug
 	        	JSONArray tempArray = jsonObj.getJSONArray(key);
 	        	for (int i = 0; i < tempArray.length(); i++) {
 	        		Object tempValue = tempArray.get(i);
@@ -170,7 +170,7 @@ public class RestAPITest implements Runnable
 	        		}	        		
 	        	}
 	        } else if (key.equals(target)) {
-	        	System.out.println("Found target: " + target + " with value " + keyValue);
+	        	//System.out.println("Found target: " + target + " with value " + keyValue); //debug
 	        	targetValues.add((String)keyValue);
 	        }
 	    }

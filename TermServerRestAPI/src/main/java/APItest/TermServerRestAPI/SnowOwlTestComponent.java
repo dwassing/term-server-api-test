@@ -27,12 +27,12 @@ public class SnowOwlTestComponent {
 	}
 	
 	//returns the values of the JSON objects that we are interested in
-	public String getInterestingJsonKeyValue(String queryType, int code) {
+	public String getInterestingJsonKeyValues(String queryType, int code) {
 		switch(queryType) {
 		case "concept-query":
 			return "term"; //TODO: ADD KEY VALUE HERE
 		case "concept-lookup":
-			return ""; //TODO: ADD KEY VALUE HERE
+			return "valueString";
 		}
 		return "";
 	}

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RestAPITest implements Runnable
@@ -36,8 +38,8 @@ public class RestAPITest implements Runnable
     	if (args[0].equals("snowowl")) {
     		RestAPITest R1 = new RestAPITest("snowowl", args[1]);
     		R1.start();
-    		RestAPITest R2 = new RestAPITest("snowowl", args[1]);
-    		R2.start();
+    		//RestAPITest R2 = new RestAPITest("snowowl", args[1]);
+    		//R2.start();
     	} else if (args[0].equals("snowstorm")) {
     		RestAPITest R3 = new RestAPITest("snowstorm", args[1]);
     		R3.start();
@@ -61,8 +63,7 @@ public class RestAPITest implements Runnable
 		    		String host = "http://localhost:8080/snowowl/";
 		    		String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
 		    		String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
-		    		String targetValue = snowOwlTestComponent.getInterestingJsonKeyValue(queryType, selectedId);
-		    		
+		    		String targetValue3 = snowOwlTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
 		    		//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 		    		//System.out.println(host + path + info); //debug
 		            URL url = new URL(host + path + info);
@@ -78,18 +79,17 @@ public class RestAPITest implements Runnable
 		            BufferedReader br = new BufferedReader(in);
 		            
 		            StringBuilder sb = new StringBuilder();
-		            //String output = ""; //debug
+		            String output = ""; //debug
 		            String temp;
 		            while ((temp = br.readLine()) != null) {
-		            	//output = output + temp; //debug
+		            	output = output + temp; //debug
 		            	sb.append(temp);
 		            }
-		            //System.out.println(output); //debug
+		            System.out.println(output); //debug
 		            
 		            //Build the object and print interesting info.
 		            JSONObject jsonObject = new JSONObject(sb.toString());
-		            System.out.println(getJsonKeyValue(jsonObject, targetValue)); //TODO: fix so it inherits
-		            
+		            System.out.println(getJsonKeyValue(jsonObject, targetValue3));
 		            conn.disconnect();
 		
 		        } catch (IOException e) {
@@ -147,24 +147,33 @@ public class RestAPITest implements Runnable
     	return array[rnd];
     }
 	
-	public static String getJsonKeyValue(JSONObject jsonObj, String target) {
+	public static ArrayList<String> getJsonKeyValue(JSONObject jsonObj, String target) {
 		Iterator<String> keys = jsonObj.keys();
-		String targetValue = "Failed to find the requested parameter. Check your key syntax.";
+		ArrayList<String> targetValues = new ArrayList<String>();
 		while (keys.hasNext()){
 			String key = keys.next();
 	    	//Need to use Object because JSONObject and String both inherit from Object
 	        Object keyValue = jsonObj.get(key);
 
 	        //recursive iteration if objects are nested
-	        //System.out.println("key: "+ key + " value: " + keyValue + " target: " + target); //debug
+	        System.out.println("key: "+ key + " value: " + keyValue + " target: " + target); //debug
 	        if (keyValue instanceof JSONObject) {
-	        	//System.out.println("Found JSON" + keyValue); //debug
-	            targetValue = getJsonKeyValue((JSONObject)keyValue, target);
+	        	System.out.println("Found JSON" + keyValue); //debug
+	            targetValues.addAll(getJsonKeyValue((JSONObject)keyValue, target));
+	        } else if (keyValue instanceof JSONArray) {
+	        	System.out.println("Found ARRAY " + keyValue); //debug
+	        	JSONArray tempArray = jsonObj.getJSONArray(key);
+	        	for (int i = 0; i < tempArray.length(); i++) {
+	        		Object tempValue = tempArray.get(i);
+	        		if (tempValue instanceof JSONObject) {
+	        			targetValues.addAll(getJsonKeyValue((JSONObject)tempValue, target));
+	        		}	        		
+	        	}
 	        } else if (key.equals(target)) {
 	        	System.out.println("Found target: " + target + " with value " + keyValue);
-	        	return (String)keyValue;
+	        	targetValues.add((String)keyValue);
 	        }
 	    }
-	    return targetValue;
+	    return targetValues;
 	}
 }

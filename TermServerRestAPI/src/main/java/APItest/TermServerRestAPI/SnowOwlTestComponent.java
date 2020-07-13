@@ -3,6 +3,17 @@ package APItest.TermServerRestAPI;
 //Generates path, information and relevant values to look at for the endpoint used
 public class SnowOwlTestComponent {
 
+	//returns either SNOMED CT or FHIR depending on what endpoint we are interested in.
+	public String getEndpointTerminology(String queryType) {
+		switch(queryType) {
+		case "concept-query":
+			return "SNOMED CT"; //TODO: ADD KEY VALUE HERE
+		case "concept-lookup":
+			return "FHIR";
+		}
+		return "";
+	}
+	
 	//returns the path needed to access the direct endpoint, depending on type of query done
 	public String getEndpointPath(String queryType, int code) {
 		switch(queryType) {

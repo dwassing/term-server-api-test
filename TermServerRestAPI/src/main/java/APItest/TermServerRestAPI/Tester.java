@@ -1,12 +1,17 @@
 package APItest.TermServerRestAPI;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 public class Tester 
 {
 	public static void main( String[] args )
 	{ 
 		BasicConfigurator.configure();
+		Logger.getLogger("ca.uhn.fhir.util.VersionUtil").setLevel(Level.OFF);
+		Logger.getLogger("ca.uhn.fhir.context.ModelScanner").setLevel(Level.OFF);
+		Logger.getRootLogger().setLevel(Level.OFF);
 	    if(args[0]==null)
 	    {
     		System.out.println("First argument must NOT be null"); //Used to say first argument must be null

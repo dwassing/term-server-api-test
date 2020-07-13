@@ -31,6 +31,7 @@ public class RestAPITest implements Runnable
    
     public static int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
     
+    //Constructor for launching a test scenario with sample concepts to a certain server
     public RestAPITest(String name, String type, int [] externalconceptIds, String exthost) 
     {
         threadName = name;
@@ -93,9 +94,10 @@ public class RestAPITest implements Runnable
 			String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
 			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId);
 			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
+			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(path, info, targetValue);
+			ArrayList<String> values = getTheValues(path, info, targetValue, terminologyType);
 			System.out.println("Values " + values);
 
 		} 
@@ -112,9 +114,10 @@ public class RestAPITest implements Runnable
 			String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
 			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
 			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
+			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(path, info, targetValue);
+			ArrayList<String> values = getTheValues(path, info, targetValue, terminologyType);
 			System.out.println("Values " + values);
 
 		} 
@@ -124,7 +127,7 @@ public class RestAPITest implements Runnable
 		}
 	}
 	
-	private ArrayList<String> getTheValues(String path, String info, String targetValue)
+	private ArrayList<String> getTheValues(String path, String info, String targetValue, String terminologyType)
 			throws MalformedURLException, IOException, ProtocolException 
 	{
 		URL url = new URL(host + path + info);
@@ -137,15 +140,19 @@ public class RestAPITest implements Runnable
 			throw new RuntimeException("Failed : HTTP Error code : "
 					+ conn.getResponseCode() + conn.getResponseMessage());
 		}
+		
 		String json=new Reader(conn).read();
 		conn.disconnect();
 		//Build the object and print interesting info.
-		//String hapiresult= new FHIRMapper(json).getValueParameters(); //THROWS EXCEPTION CURRENTLY
-		//System.out.println(hapiresult);
+		
 		JSONObject jsonObject = new JSONObject(json);
+		//System.out.println(jsonObject);
 		conn.disconnect();
+		if (terminologyType.equals("FHIR")) {
+			String hapiresult = new FHIRMapper(json).getValueParameters();
+			System.out.println("FHIR found: " + hapiresult + " ");
+		}
 		return getJsonKeyValue(jsonObject, targetValue);
-
 	}
 	
 	public void start() {

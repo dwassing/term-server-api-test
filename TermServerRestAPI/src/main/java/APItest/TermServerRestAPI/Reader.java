@@ -28,7 +28,8 @@ public class Reader
     		String temp;
     		while ((temp = br.readLine()) != null) 
     		{
-    			sb.append(temp);
+    			sb.append(temp).append("\n");
+    			//sb.append(temp);
     		}
     		return sb.toString();
     	}  

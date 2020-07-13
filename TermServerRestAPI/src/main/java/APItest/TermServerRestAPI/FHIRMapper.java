@@ -33,8 +33,6 @@ public class FHIRMapper
 		List<ParametersParameterComponent> e = parsed.getParameter();
 		ParametersParameterComponent rr = e.get(1);
 		String result = rr.getValue().toString();
-		System.out.println(result);
-		System.out.println("BREAK");
 		return result;
 	}	
 }

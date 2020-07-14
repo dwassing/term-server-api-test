@@ -34,7 +34,7 @@ public class Tester
 	    		R2.start();
 	    	}
     	} else {
-    		System.out.println("Bad server argument. Exiting.");
+    		System.out.println("Bad server argument, read the code documentation. Exiting.");
     	}
     }
 }

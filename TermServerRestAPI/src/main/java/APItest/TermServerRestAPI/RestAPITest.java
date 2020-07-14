@@ -25,8 +25,7 @@ public class RestAPITest implements Runnable
 	private String threadName;
 	private String queryType;
 	private String threadId;
-	private String host="http://localhost:8080/snowowl/";
-	
+	private String host;
 
     private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
     private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
@@ -96,13 +95,14 @@ public class RestAPITest implements Runnable
 		{
 			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
+			String host = ""; //TODO: Add snowstorm URL
 			String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
 			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId);
 			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
 			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(path, info, targetValue, terminologyType);
+			ArrayList<String> values = getTheValues(host, path, info, targetValue, terminologyType);
 			long endTime = System.currentTimeMillis() - startTime;
 			System.out.println("Values: " + values + "; time elapsed: " + endTime);
 
@@ -118,13 +118,14 @@ public class RestAPITest implements Runnable
 		{
 			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
+			String host = "http://localhost:8080/snowowl/";
 			String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
 			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
 			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
 			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(path, info, targetValue, terminologyType);
+			ArrayList<String> values = getTheValues(host, path, info, targetValue, terminologyType);
 			long endTime = System.currentTimeMillis() - startTime;
 			System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec.");
 
@@ -135,7 +136,7 @@ public class RestAPITest implements Runnable
 		}
 	}
 	
-	private ArrayList<String> getTheValues(String path, String info, String targetValue, String terminologyType)
+	private ArrayList<String> getTheValues(String host, String path, String info, String targetValue, String terminologyType)
 			throws MalformedURLException, IOException, ProtocolException 
 	{
 		URL url = new URL(host + path + info);

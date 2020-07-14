@@ -24,7 +24,9 @@ public class RestAPITest implements Runnable
 	private Thread thread;
 	private String threadName;
 	private String queryType;
+	private String threadId;
 	private String host="http://localhost:8080/snowowl/";
+	
 
     private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
     private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
@@ -48,17 +50,19 @@ public class RestAPITest implements Runnable
     }
     
     //Default constructor for a thread within the rest API test
-    public RestAPITest(String name, String type) 
+    public RestAPITest(String name, String type, String id) 
     {
         threadName = name;
         queryType = type;
-        
-        System.out.println("Creating " + threadName + queryType);
+        threadId = id;
+        System.out.println("Creating " + threadName + queryType + threadId);
     }
         
     //Fixa så man gör flera requests med multitrådning. DONE
     //Fixa så att URL-strängen tar params (så vi kan mata in olika concepts bland annat) DONE
     //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime. IN PROGRESS
+    //Fixa så att vi läser av tiden
+    //Fixa så att vi mappar ut FHIR-data korrekt när det är det vi vill ha. Det ska returneras ArrayList<String> DONE
     //Fixa så att vi bara tittar på vissa key-value pair i JSON objektet som returneras. DONE
     //Bygg test-scenarion
 
@@ -84,12 +88,13 @@ public class RestAPITest implements Runnable
 		catch (Exception e) {
 			System.out.println("Thread " + threadName + " interrupted, or something else went wrong.");
 		}
-		System.out.println("Thread " +  threadName + " exiting.");
+		System.out.println("Thread " +  threadName + queryType + threadId + " exiting.");
 	}
 	
 	private void runSnowstorm() {
 		try 
 		{
+			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
 			String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
 			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId);
@@ -98,7 +103,8 @@ public class RestAPITest implements Runnable
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(path, info, targetValue, terminologyType);
-			System.out.println("Values " + values);
+			long endTime = System.currentTimeMillis() - startTime;
+			System.out.println("Values: " + values + "; time elapsed: " + endTime);
 
 		} 
 		catch (IOException e)
@@ -110,6 +116,7 @@ public class RestAPITest implements Runnable
 	private void runSnowOwl() {
 		try 
 		{
+			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
 			String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
 			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
@@ -118,7 +125,8 @@ public class RestAPITest implements Runnable
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(path, info, targetValue, terminologyType);
-			System.out.println("Values " + values);
+			long endTime = System.currentTimeMillis() - startTime;
+			System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec.");
 
 		} 
 		catch (IOException e)
@@ -131,6 +139,7 @@ public class RestAPITest implements Runnable
 			throws MalformedURLException, IOException, ProtocolException 
 	{
 		URL url = new URL(host + path + info);
+		ArrayList<String> returnValue = new ArrayList<String>();
 
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -150,13 +159,17 @@ public class RestAPITest implements Runnable
 		conn.disconnect();
 		if (terminologyType.equals("FHIR")) {
 			String hapiresult = new FHIRMapper(json).getValueParameters();
-			System.out.println("FHIR found: " + hapiresult + " ");
+			returnValue.add(hapiresult);
+		} else if (terminologyType.equals("SNOMED CT")) {
+			returnValue = getJsonKeyValue(jsonObject, targetValue);
+		} else {
+			returnValue.add("Wrong terminology specified.");
 		}
-		return getJsonKeyValue(jsonObject, targetValue);
+		return returnValue;
 	}
 	
 	public void start() {
-		System.out.println("Starting " + threadName + queryType);
+		System.out.println("Starting " + threadName + queryType + threadId);
 		if (thread == null) {
 			thread = new Thread(this, threadName);
 			thread.start ();

@@ -10,6 +10,8 @@ public class SnowOwlTestComponent {
 			return "SNOMED CT"; //TODO: ADD KEY VALUE HERE
 		case "concept-lookup":
 			return "FHIR";
+		case "concept-subsumption":
+			return "FHIR";
 		}
 		return "";
 	}
@@ -22,17 +24,21 @@ public class SnowOwlTestComponent {
 			//return "snomed-ct/v3/MAIN%2Finternational%2F20200309/concepts/";
 		case "concept-lookup":
 			return "fhir/CodeSystem/";
+		case "concept-subsumption":
+			return "fhir/CodeSystem/";
 		}
 		return "";
 	}
 	
-	//returns additional information such as extra parameters
-	public String getEndpointInfo(String queryType, int code) {
+	//returns additional information such as extra parameters, codeB is randomly generated currently.
+	public String getEndpointInfo(String queryType, int codeA, int codeB) {
 		switch(queryType) {
 		case "concept-query":
-			return Integer.toString(code) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
+			return Integer.toString(codeA) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
 		case "concept-lookup":
-			return "$lookup?code=" + Integer.toString(code) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
+			return "$lookup?code=" + Integer.toString(codeA) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
+		case "concept-subsumption":
+			return "$subsumes?codeA=" + Integer.toString(codeA) + "&codeB=" + Integer.toString(codeB) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
 		}
 		return "";
 	}
@@ -44,6 +50,8 @@ public class SnowOwlTestComponent {
 			return "term"; //TODO: ADD KEY VALUE HERE
 		case "concept-lookup":
 			return "valueString";
+		case "concept-subsumption":
+			return "valueCode";
 		}
 		return "";
 	}

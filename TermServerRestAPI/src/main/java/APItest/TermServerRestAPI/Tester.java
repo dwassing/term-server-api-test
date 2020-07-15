@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 public class Tester 
 {
-	private static String[] supportedQueryTypes = {"concept-query", "concept-lookup"};
+	private static String[] supportedQueryTypes = {"concept-query", "concept-lookup", "concept-subsumption"};
 	
 	public static void main( String[] args )
 	{ 
@@ -30,7 +30,7 @@ public class Tester
 	    	}
     	} else if (args[0].equals(RestAPITest.SNOWSTORM)) {
     		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
-	    		RestAPITest R2 = new RestAPITest(RestAPITest.SNOWOWL, args[1], Integer.toString(i));
+	    		RestAPITest R2 = new RestAPITest(RestAPITest.SNOWSTORM, args[1], Integer.toString(i));
 	    		R2.start();
 	    	}
     	} else {

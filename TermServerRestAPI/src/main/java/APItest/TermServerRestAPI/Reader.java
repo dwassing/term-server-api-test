@@ -25,12 +25,14 @@ public class Reader
     		BufferedReader br = new BufferedReader(in);
 
     		StringBuilder sb = new StringBuilder();
+    		//String output = ""; //debug
     		String temp;
     		while ((temp = br.readLine()) != null) 
     		{
     			sb.append(temp).append("\n");
-    			//sb.append(temp);
+    			//output = output + temp; //debug
     		}
+    		//System.out.println(output); //debug
     		return sb.toString();
     	}  
     	catch(IOException e)  

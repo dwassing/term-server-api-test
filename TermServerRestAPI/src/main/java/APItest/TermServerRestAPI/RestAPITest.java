@@ -18,7 +18,7 @@ public class RestAPITest implements Runnable
    	public static final String SNOWOWL = "snowowl";
 
 	/**
-     * Supported query types are: concept-query, concept-lookup
+     * Supported query types are: concept-query, concept-lookup, concept-subsumption
      */
 	
 	private Thread thread;
@@ -59,11 +59,11 @@ public class RestAPITest implements Runnable
         
     //Fixa så man gör flera requests med multitrådning. DONE
     //Fixa så att URL-strängen tar params (så vi kan mata in olika concepts bland annat) DONE
-    //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime. IN PROGRESS
-    //Fixa så att vi läser av tiden
+    //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime. DONE
+    //Fixa så att vi läser av tiden DONE
     //Fixa så att vi mappar ut FHIR-data korrekt när det är det vi vill ha. Det ska returneras ArrayList<String> DONE
     //Fixa så att vi bara tittar på vissa key-value pair i JSON objektet som returneras. DONE
-    //Bygg test-scenarion
+    //Bygg test-scenarion BÖRJA IMORGON
 
 	@Override
 	public void run() 
@@ -97,7 +97,7 @@ public class RestAPITest implements Runnable
 			int selectedId = getRandom(conceptIds);
 			String host = ""; //TODO: Add snowstorm URL
 			String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
-			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId);
+			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds));
 			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
 			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
@@ -120,9 +120,9 @@ public class RestAPITest implements Runnable
 			int selectedId = getRandom(conceptIds);
 			String host = "http://localhost:8080/snowowl/";
 			String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
-			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId);
+			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds));
 			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
-			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
+			String terminologyType = snowOwlTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(host, path, info, targetValue, terminologyType);

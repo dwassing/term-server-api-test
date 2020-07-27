@@ -56,14 +56,6 @@ public class RestAPITest implements Runnable
         threadId = id;
         System.out.println("Creating " + threadName + queryType + threadId);
     }
-        
-    //Fixa så man gör flera requests med multitrådning. DONE
-    //Fixa så att URL-strängen tar params (så vi kan mata in olika concepts bland annat) DONE
-    //Fixa så man kan skapa X mängd trådar där X är argument som ges från runtime. DONE
-    //Fixa så att vi läser av tiden DONE
-    //Fixa så att vi mappar ut FHIR-data korrekt när det är det vi vill ha. Det ska returneras ArrayList<String> DONE
-    //Fixa så att vi bara tittar på vissa key-value pair i JSON objektet som returneras. DONE
-    //Bygg test-scenarion BÖRJA IMORGON
 
 	@Override
 	public void run() 
@@ -95,16 +87,17 @@ public class RestAPITest implements Runnable
 		{
 			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
-			String host = ""; //TODO: Add snowstorm URL
-			String path = snowstormTestComponent.getEndpointPath(queryType, selectedId);
+			String host = "http://localhost:8080/";
+			String path = snowstormTestComponent.getEndpointPath(queryType);
 			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds));
-			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
+			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType);
+			int targetIndex = snowstormTestComponent.getFhirIndexStorage(queryType);
 			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(host, path, info, targetValue, terminologyType);
+			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
 			long endTime = System.currentTimeMillis() - startTime;
-			System.out.println("Values: " + values + "; time elapsed: " + endTime);
+			System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec.");
 
 		} 
 		catch (IOException e)
@@ -119,13 +112,14 @@ public class RestAPITest implements Runnable
 			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
 			String host = "http://localhost:8080/snowowl/";
-			String path = snowOwlTestComponent.getEndpointPath(queryType, selectedId);
+			String path = snowOwlTestComponent.getEndpointPath(queryType);
 			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds));
-			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType, selectedId);
+			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType);
+			int targetIndex = snowOwlTestComponent.getFhirIndexStorage(queryType);
 			String terminologyType = snowOwlTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(host, path, info, targetValue, terminologyType);
+			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
 			long endTime = System.currentTimeMillis() - startTime;
 			System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec.");
 
@@ -136,30 +130,37 @@ public class RestAPITest implements Runnable
 		}
 	}
 	
-	private ArrayList<String> getTheValues(String host, String path, String info, String targetValue, String terminologyType)
+	private ArrayList<String> getTheValues(String host, String path, String info, String targetValue, int targetIndex, String terminologyType)
 			throws MalformedURLException, IOException, ProtocolException 
 	{
 		URL url = new URL(host + path + info);
 		ArrayList<String> returnValue = new ArrayList<String>();
 
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-		conn.setRequestProperty("content-type", "application/json;charset=utf-8");
+		if (this.threadName.equals(SNOWOWL)) {
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("content-type", "application/json;charset=utf-8");
+		} else if (this.threadName.equals(SNOWSTORM)) {
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Accept-Language", "en-X-900000000000509007,en-X-900000000000508004,en");
+		} else {
+			throw new RuntimeException("Bad server argument in connection establishment.");
+		}
 		if (conn.getResponseCode() != 200)
 		{
+			System.out.println(conn.getResponseCode() + conn.getResponseMessage());
 			throw new RuntimeException("Failed : HTTP Error code : "
 					+ conn.getResponseCode() + conn.getResponseMessage());
 		}
-		
 		String json=new Reader(conn).read();
 		conn.disconnect();
-		//Build the object and print interesting info.
 		
+		//Build the object and print interesting info.
 		JSONObject jsonObject = new JSONObject(json);
-		//System.out.println(jsonObject);
 		conn.disconnect();
 		if (terminologyType.equals("FHIR")) {
-			String hapiresult = new FHIRMapper(json).getValueParameters();
+			String hapiresult = new FHIRMapper(json, targetIndex).getValueParameters();
 			returnValue.add(hapiresult);
 		} else if (terminologyType.equals("SNOMED CT")) {
 			returnValue = getJsonKeyValue(jsonObject, targetValue);

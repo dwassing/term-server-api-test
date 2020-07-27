@@ -35,7 +35,7 @@ public class FHIRMapperTest
             System.err.format("IOException: %s%n", e);
         }
         System.out.print(sb.toString());
-        System.out.print("Result:"+new FHIRMapper(sb.toString()).getValueParameters());
+        System.out.print("Result:"+new FHIRMapper(sb.toString(), 999).getValueParameters());
 
 	}
 }

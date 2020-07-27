@@ -7,7 +7,7 @@ public class SnowstormTestComponent {
 	public String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
-			return "SNOMED CT"; //TODO: ADD KEY VALUE HERE
+			return "SNOMED CT";
 		case "concept-lookup":
 			return "FHIR";
 		case "concept-subsumption":
@@ -17,14 +17,14 @@ public class SnowstormTestComponent {
 	}
 	
 	//returns the path needed to access the direct endpoint, depending on type of query done
-	public String getEndpointPath(String queryType, int code) {
+	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
-			return "ADD-ENDPOINT-PATH-HERE";
+			return "MAIN/concepts/";
 		case "concept-lookup":
-			return ""; //TODO: add path of FHIR lookup
+			return "fhir/CodeSystem/";
 		case "concept-subsumption":
-			return "";
+			return "fhir/CodeSystem/";
 		}
 		return "";
 	}
@@ -33,24 +33,31 @@ public class SnowstormTestComponent {
 	public String getEndpointInfo(String queryType, int codeA, int codeB) {
 		switch(queryType) {
 		case "concept-query":
-			return ""; //TODO: maybe return the ID here. Currently done in main class.
+			return Integer.toString(codeA);
 		case "concept-lookup":
-			return ""; //TODO: add path of FHIR lookup
+			return "$lookup?system=http://snomed.info/sct&code=" + Integer.toString(codeA);
 		case "concept-subsumption":
-			return "";
+			return "$subsumes?system=http://snomed.info/sct&codeA=" + Integer.toString(codeA) + "&codeB=" + Integer.toString(codeB);
 		}
 		return "";
 	}
 	
-	//returns the values of the JSON objects that we are interested in
-	public String getInterestingJsonKeyValues(String queryType, int code) {
+	//In case of FHIR, return index of param we are looking for
+	public int getFhirIndexStorage(String queryType) {
+		switch(queryType) {
+		case "concept-lookup":
+			return 0;
+		case "concept-subsumption":
+			return 0;
+		}
+		return -1;
+	}
+	
+	//In case of SNOMED CT, returns the values of the JSON objects that we are interested in
+	public String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":
-			return ""; //TODO: ADD KEY VALUE HERE
-		case "concept-lookup":
-			return "";
-		case "concept-subsumption":
-			return "";
+			return "term";
 		}
 		return "";
 	}

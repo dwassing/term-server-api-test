@@ -1,13 +1,14 @@
 package APItest.TermServerRestAPI;
 
+//Maybe possible to rewrite this with Maps, but would be harder to implement ambiguity in parameter depending info.
+
 //Generates path, information and relevant values to look at for the endpoint used
 public class SnowOwlTestComponent {
-
-	//returns either SNOMED CT or FHIR depending on what endpoint we are interested in.
+	
 	public String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
-			return "SNOMED CT"; //TODO: ADD KEY VALUE HERE
+			return "SNOMED CT";
 		case "concept-lookup":
 			return "FHIR";
 		case "concept-subsumption":
@@ -17,7 +18,7 @@ public class SnowOwlTestComponent {
 	}
 	
 	//returns the path needed to access the direct endpoint, depending on type of query done
-	public String getEndpointPath(String queryType, int code) {
+	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
 			return "snomed-ct/v3/MAIN/international/20200309/concepts/";
@@ -43,15 +44,22 @@ public class SnowOwlTestComponent {
 		return "";
 	}
 	
-	//returns the values of the JSON objects that we are interested in
-	public String getInterestingJsonKeyValues(String queryType, int code) {
+	//In case of FHIR, return index of param we are looking for
+	public int getFhirIndexStorage(String queryType) {
+		switch(queryType) {
+		case "concept-lookup":
+			return 1;
+		case "concept-subsumption":
+			return 0;
+		}
+		return -1;
+	}
+	
+	//In case of SNOMED CT, returns the values of the JSON objects that we are interested in
+	public String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":
-			return "term"; //TODO: ADD KEY VALUE HERE
-		case "concept-lookup":
-			return "valueString";
-		case "concept-subsumption":
-			return "valueCode";
+			return "term";
 		}
 		return "";
 	}

@@ -1,6 +1,7 @@
 package APItest.TermServerRestAPI;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -97,8 +98,10 @@ public class RestAPITest implements Runnable
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
 			long endTime = System.currentTimeMillis() - startTime;
-			System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec.");
-
+			//System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec."); /7debug
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTime) + " millisec.";
+			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
+			outputWriter.write(output);
 		} 
 		catch (IOException e)
 		{
@@ -121,8 +124,9 @@ public class RestAPITest implements Runnable
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
 			long endTime = System.currentTimeMillis() - startTime;
-			System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec.");
-
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTime) + " millisec.";
+			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
+			outputWriter.write(output);
 		} 
 		catch (IOException e)
 		{

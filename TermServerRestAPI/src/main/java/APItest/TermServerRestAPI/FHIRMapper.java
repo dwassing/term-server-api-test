@@ -46,7 +46,6 @@ public class FHIRMapper
 		} else { //if ran against snowowl or snowstorm.
 			Parameters parsed = parser.parseResource(Parameters.class, stringToMap);
 			List<ParametersParameterComponent> e = parsed.getParameter();
-			System.out.println(this.soughtIndex);
 			rr = e.get(this.soughtIndex);
 			result = rr.getValue().toString();
 		}

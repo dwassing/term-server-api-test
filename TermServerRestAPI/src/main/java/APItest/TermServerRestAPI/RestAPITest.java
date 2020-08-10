@@ -136,7 +136,8 @@ public class RestAPITest implements Runnable
 	private void runSnowOwl() {
 		try 
 		{
-			long startTime = System.currentTimeMillis();
+			startTestTime = System.currentTimeMillis();
+			//long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
 			if (host == null) {
 				host = "http://localhost:8080/snowowl/";
@@ -149,8 +150,8 @@ public class RestAPITest implements Runnable
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
-			long endTime = System.currentTimeMillis() - startTime;
-			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTime) + " millisec.";
+			//long endTime = System.currentTimeMillis() - startTime;
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTestTime) + " millisec.";
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
 			outputWriter.write(output);
 		} 

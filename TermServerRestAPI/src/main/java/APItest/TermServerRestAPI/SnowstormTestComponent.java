@@ -46,7 +46,7 @@ public class SnowstormTestComponent {
 	public int getFhirIndexStorage(String queryType) {
 		switch(queryType) {
 		case "concept-lookup":
-			return 0;
+			return 1;
 		case "concept-subsumption":
 			return 0;
 		}

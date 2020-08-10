@@ -13,7 +13,7 @@ public class FHIRMapper
 {
 	
 	private String stringToMap = "";
-	private int soughtIndex = 999;
+	private int soughtIndex;
 	private ParametersParameterComponent rr;
 	
 	public FHIRMapper(String json, int targetIndex)

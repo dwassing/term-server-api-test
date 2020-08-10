@@ -19,7 +19,8 @@ public class RestAPITest implements Runnable
    	public static final String SNOWOWL = "snowowl";
 
 	/**
-     * Supported query types are: concept-query, concept-lookup, concept-subsumption
+     * Supported query types are: concept-query, concept-finder, concept-lookup, concept-subsumption, concept-translation (snowstorm only)
+     * Additional note about concept-finder, do not run more than a single thread of this query, it returns a lot of information.
      */
 	
 	private Thread thread;
@@ -27,17 +28,21 @@ public class RestAPITest implements Runnable
 	private String queryType;
 	private String threadId;
 	private String host;
+	private long startTestTime;
+	private long endTestTime;
 
     private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
     private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
    
-    public static int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
+    private static int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
+    private static String searchTerm = "blood pressure"; //placeholder
     
     //Constructor for launching a test scenario with sample concepts to a certain server
-    public RestAPITest(String name, String type, int [] externalconceptIds, String exthost) 
+    public RestAPITest(String name, String type, String exthost, int [] externalconceptIds) //constructor for 
     {
         threadName = name;
         queryType = type;
+        threadId = Integer.toString(9999);
         if(externalconceptIds!=null && externalconceptIds.length>0)
         {
         	conceptIds=externalconceptIds;
@@ -46,7 +51,23 @@ public class RestAPITest implements Runnable
         {
         	host=exthost;
         }
-        System.out.println("Creating " + threadName + queryType + " benny version");
+        System.out.println("Creating " + threadName + queryType + threadId);
+    }
+    
+    public RestAPITest(String name, String type, String exthost, String externalSearchTerm)
+    {
+    	threadName = name;
+    	queryType = type;
+    	threadId = Integer.toString(9999);
+    	if(externalSearchTerm!=null && externalSearchTerm.length()>0)
+        {
+        	searchTerm=externalSearchTerm;
+        }
+        if(exthost!=null && exthost.length()>0)
+        {
+        	host=exthost;
+        }
+        System.out.println("Creating " + threadName + queryType + threadId);
     }
     
     //Default constructor for a thread within the rest API test
@@ -86,20 +107,23 @@ public class RestAPITest implements Runnable
 	private void runSnowstorm() {
 		try 
 		{
-			long startTime = System.currentTimeMillis();
+			startTestTime = System.currentTimeMillis();
+			//long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
-			String host = "http://localhost:8080/";
+			if (host == null) {
+				host = "http://localhost:8080/";
+			}
 			String path = snowstormTestComponent.getEndpointPath(queryType);
-			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds));
+			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds), searchTerm);
 			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType);
 			int targetIndex = snowstormTestComponent.getFhirIndexStorage(queryType);
 			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
-			long endTime = System.currentTimeMillis() - startTime;
+			//long endTime = System.currentTimeMillis() - startTime;
 			//System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec."); /7debug
-			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTime) + " millisec.";
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTestTime) + " millisec.";
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
 			outputWriter.write(output);
 		} 
@@ -114,9 +138,11 @@ public class RestAPITest implements Runnable
 		{
 			long startTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
-			String host = "http://localhost:8080/snowowl/";
+			if (host == null) {
+				host = "http://localhost:8080/snowowl/";
+			}
 			String path = snowOwlTestComponent.getEndpointPath(queryType);
-			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds));
+			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds), searchTerm);
 			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType);
 			int targetIndex = snowOwlTestComponent.getFhirIndexStorage(queryType);
 			String terminologyType = snowOwlTestComponent.getEndpointTerminology(queryType);
@@ -160,6 +186,7 @@ public class RestAPITest implements Runnable
 		String json=new Reader(conn).read();
 		conn.disconnect();
 		
+		endTestTime = System.currentTimeMillis() - startTestTime;
 		//Build the object and print interesting info.
 		JSONObject jsonObject = new JSONObject(json);
 		conn.disconnect();

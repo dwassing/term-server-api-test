@@ -44,8 +44,12 @@ public class FHIRMapper
 			//json object if we find outlying examples. Passing locations of elements within json objects is a deeply
 			//discouraged practice however and should only be considered as a very last resort.
 		} else { //if ran against snowowl or snowstorm.
+			System.out.println(stringToMap);
 			Parameters parsed = parser.parseResource(Parameters.class, stringToMap);
 			List<ParametersParameterComponent> e = parsed.getParameter();
+			for (int i = 0; i < e.size(); i++) {
+				System.out.println(e.get(i).getValue().toString());
+			}
 			rr = e.get(this.soughtIndex);
 			result = rr.getValue().toString();
 		}

@@ -34,40 +34,53 @@ public class RestAPITest implements Runnable
     private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
     private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
    
-    private static int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
+    private int conceptId = 404684003; //clinical finding
+    private static final int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
     private static String searchTerm = "blood pressure"; //placeholder
     
-    //Constructor for launching a test scenario with sample concepts to a certain server
-    public RestAPITest(String name, String type, String exthost, int [] externalconceptIds) //constructor for 
+    /**
+     * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types
+     * @param name
+     * @param type
+     * @param exthost
+     * @param externalconceptIds
+     */
+    public RestAPITest(String name, String type, String exthost, int externalConceptId) 
     {
         threadName = name;
         queryType = type;
         threadId = Integer.toString(9999);
-        if(externalconceptIds!=null && externalconceptIds.length>0)
+        if(externalConceptId != 0)
         {
-        	conceptIds=externalconceptIds;
+        	conceptId = externalConceptId;
         }
-        if(exthost!=null && exthost.length()>0)
+        if(exthost != null && exthost.length() > 0)
         {
         	host=exthost;
         }
-        System.out.println("Creating " + threadName + queryType + threadId);
+        System.out.println("Creating " + threadName + queryType + " with host: " + host + " and concept id: " + Integer.toString(externalConceptId));
     }
     
+    /**
+     * Constructor for external testing using a search term to a supplied server, see javadoc for supported query types
+     * @param name
+     * @param type
+     * @param exthost
+     * @param externalSearchTerm
+     */
     public RestAPITest(String name, String type, String exthost, String externalSearchTerm)
     {
     	threadName = name;
     	queryType = type;
-    	threadId = Integer.toString(9999);
-    	if(externalSearchTerm!=null && externalSearchTerm.length()>0)
+    	if(externalSearchTerm != null && externalSearchTerm.length() > 0)
         {
         	searchTerm=externalSearchTerm;
         }
-        if(exthost!=null && exthost.length()>0)
+        if(exthost!=null && exthost.length() > 0)
         {
         	host=exthost;
         }
-        System.out.println("Creating " + threadName + queryType + threadId);
+        System.out.println("Creating " + threadName + queryType + " with host: " + host +  " and search term: " + externalSearchTerm);
     }
     
     //Default constructor for a thread within the rest API test
@@ -77,6 +90,22 @@ public class RestAPITest implements Runnable
         queryType = type;
         threadId = id;
         System.out.println("Creating " + threadName + queryType + threadId);
+    }
+    
+    public void setQueryType(String type) {
+    	this.queryType = type;
+    }
+    
+    public String getQueryType() {
+    	return this.queryType;
+    }
+    
+    public void setConceptId(int id) {
+    	this.conceptId = id;
+    }
+    
+    public int getConceptId() {
+    	return this.conceptId;
     }
 
 	@Override
@@ -107,11 +136,10 @@ public class RestAPITest implements Runnable
 	private void runSnowstorm() {
 		try 
 		{
-			startTestTime = System.currentTimeMillis();
-			//long startTime = System.currentTimeMillis();
+			this.startTestTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
-			if (host == null) {
-				host = "http://localhost:8080/";
+			if (this.host == null) {
+				this.host = "http://localhost:8080/";
 			}
 			String path = snowstormTestComponent.getEndpointPath(queryType);
 			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds), searchTerm);
@@ -120,10 +148,11 @@ public class RestAPITest implements Runnable
 			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
+			String json = getRawJsonDataFromHost(this.host, path, info);
+			ArrayList<String> values = getTheValues(json, targetValue, targetIndex, terminologyType);
 			//long endTime = System.currentTimeMillis() - startTime;
-			//System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec."); /7debug
-			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTestTime) + " millisec.";
+			//System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec."); //debug
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec.";
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
 			outputWriter.write(output);
 		} 
@@ -136,11 +165,10 @@ public class RestAPITest implements Runnable
 	private void runSnowOwl() {
 		try 
 		{
-			startTestTime = System.currentTimeMillis();
-			//long startTime = System.currentTimeMillis();
+			this.startTestTime = System.currentTimeMillis();
 			int selectedId = getRandom(conceptIds);
-			if (host == null) {
-				host = "http://localhost:8080/snowowl/";
+			if (this.host == null) {
+				this.host = "http://localhost:8080/snowowl/";
 			}
 			String path = snowOwlTestComponent.getEndpointPath(queryType);
 			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds), searchTerm);
@@ -149,9 +177,10 @@ public class RestAPITest implements Runnable
 			String terminologyType = snowOwlTestComponent.getEndpointTerminology(queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
-			ArrayList<String> values = getTheValues(host, path, info, targetValue, targetIndex, terminologyType);
+			String json = getRawJsonDataFromHost(this.host, path, info);
+			ArrayList<String> values = getTheValues(json, targetValue, targetIndex, terminologyType);
 			//long endTime = System.currentTimeMillis() - startTime;
-			String output = "Values: " + values + "; time elapsed: " + Long.toString(endTestTime) + " millisec.";
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec.";
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
 			outputWriter.write(output);
 		} 
@@ -161,11 +190,8 @@ public class RestAPITest implements Runnable
 		}
 	}
 	
-	private ArrayList<String> getTheValues(String host, String path, String info, String targetValue, int targetIndex, String terminologyType)
-			throws MalformedURLException, IOException, ProtocolException 
-	{
-		URL url = new URL(host + path + info);
-		ArrayList<String> returnValue = new ArrayList<String>();
+	private String getRawJsonDataFromHost(String host, String path, String info) throws MalformedURLException, IOException, ProtocolException{
+    	URL url = new URL(host + path + info);
 
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		if (this.threadName.equals(SNOWOWL)) {
@@ -184,23 +210,31 @@ public class RestAPITest implements Runnable
 			throw new RuntimeException("Failed : HTTP Error code : "
 					+ conn.getResponseCode() + conn.getResponseMessage());
 		}
+		
 		String json=new Reader(conn).read();
 		conn.disconnect();
 		
-		endTestTime = System.currentTimeMillis() - startTestTime;
-		//Build the object and print interesting info.
-		JSONObject jsonObject = new JSONObject(json);
-		conn.disconnect();
-		if (terminologyType.equals("FHIR")) {
-			String hapiresult = new FHIRMapper(json, targetIndex).getValueParameters();
-			returnValue.add(hapiresult);
-		} else if (terminologyType.equals("SNOMED CT")) {
-			returnValue = getJsonKeyValue(jsonObject, targetValue);
-		} else {
-			returnValue.add("Wrong terminology specified.");
+		if (json.charAt(0) != '{') { //some endpoints return arrays instead of json objects (with arrays inside of them)
+			json = "{\"extra\":" + json + '}';
 		}
-		return returnValue;
-	}
+		this.endTestTime = System.currentTimeMillis() - this.startTestTime;
+		return json;
+    }
+    
+    private ArrayList<String> getTheValues(String jsonString, String targetValue, int targetIndex, String terminologyType){
+    	ArrayList<String> returnValues = new ArrayList<String>();
+    	JSONObject jsonObject = new JSONObject(jsonString);
+		
+		if (terminologyType.equals("FHIR")) {
+			String hapiresult = new FHIRMapper(jsonString, targetIndex).getValueParameters();
+			returnValues.add(hapiresult);
+		} else if (terminologyType.equals("SNOMED CT")) {
+			returnValues = getJsonKeyValue(jsonObject, targetValue);
+		} else {
+			returnValues.add("Wrong terminology specified.");
+		}
+		return returnValues;
+    }
 	
 	public void start() {
 		System.out.println("Starting " + threadName + queryType + threadId);

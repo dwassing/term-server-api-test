@@ -52,8 +52,8 @@ public class SnowstormTestComponent {
 			return "$lookup?system=http://snomed.info/sct&code=" + Integer.toString(codeA);
 		case "concept-subsumption":
 			return "$subsumes?system=http://snomed.info/sct&codeA=" + Integer.toString(codeA) + "&codeB=" + Integer.toString(codeB);
-		case "concept-translation":
-			return ""; //TODO: add this
+		case "concept-translation": //hardcoded. The HAPI FHIR mapper currently returns only if a translation to ICD10 exists or not (true or false).
+			return "$translate?code=" + Integer.toString(codeA) + "&system=http://snomed.info/sct&source=http://snomed.info/sct?fhir_vs&target=http://hl7.org/fhir/sid/icd-10&url=http://snomed.info/sct/900000000000207008/version/20200309?fhir_cm=447562003";
 		}
 		return "";
 	}

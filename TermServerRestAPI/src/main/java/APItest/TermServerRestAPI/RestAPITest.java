@@ -35,7 +35,7 @@ public class RestAPITest implements Runnable
    
     private int conceptId = 404684003; //clinical finding
     private static final int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
-    private static String searchTerm = "blood pressure"; //placeholder
+    private String searchTerm = "blood pressure"; //placeholder
     
     /**
      * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types
@@ -44,42 +44,36 @@ public class RestAPITest implements Runnable
      * @param exthost
      * @param externalconceptIds
      */
-    public RestAPITest(String name, String type, String exthost, int externalConceptId) 
+    public RestAPITest(String name, String type, String id, int externalConceptId) 
     {
         threadName = name;
         queryType = type;
-        threadId = Integer.toString(9999);
+        threadId = id;
         if(externalConceptId != 0)
         {
         	conceptId = externalConceptId;
         }
-        if(exthost != null && exthost.length() > 0)
-        {
-        	host=exthost;
-        }
-        System.out.println("Creating " + threadName + queryType + " with host: " + host + " and concept id: " + Integer.toString(externalConceptId));
+        System.out.println("Creating " + threadName + queryType + threadId + " with concept id: " + Integer.toString(externalConceptId));
     }
     
     /**
-     * Constructor for external testing using a search term to a supplied server, see javadoc for supported query types
+     * Constructor for testing using an external search term, see javadoc for supported query types
      * @param name
      * @param type
      * @param exthost
      * @param externalSearchTerm
      */
-    public RestAPITest(String name, String type, String exthost, String externalSearchTerm)
+    public RestAPITest(String name, String type, String id, String externalSearchTerm)
     {
     	threadName = name;
     	queryType = type;
+    	threadId = id;
     	if(externalSearchTerm != null && externalSearchTerm.length() > 0)
         {
         	searchTerm=externalSearchTerm;
         }
-        if(exthost!=null && exthost.length() > 0)
-        {
-        	host=exthost;
-        }
-        System.out.println("Creating " + threadName + queryType + " with host: " + host +  " and search term: " + externalSearchTerm);
+        
+        System.out.println("Creating " + threadName + queryType + threadId + " with search term: " + externalSearchTerm);
     }
     
     //Default constructor for a thread within the rest API test
@@ -88,6 +82,7 @@ public class RestAPITest implements Runnable
         threadName = name;
         queryType = type;
         threadId = id;
+        conceptId = getRandom(conceptIds);
         System.out.println("Creating " + threadName + queryType + threadId);
     }
     
@@ -136,15 +131,14 @@ public class RestAPITest implements Runnable
 		try 
 		{
 			this.startTestTime = System.currentTimeMillis();
-			int selectedId = getRandom(conceptIds);
 			if (this.host == null) {
 				this.host = "http://localhost:8080/";
 			}
-			String path = snowstormTestComponent.getEndpointPath(queryType);
-			String info = snowstormTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds), searchTerm);
-			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(queryType);
-			int targetIndex = snowstormTestComponent.getFhirIndexStorage(queryType);
-			String terminologyType = snowstormTestComponent.getEndpointTerminology(queryType);
+			String path = snowstormTestComponent.getEndpointPath(this.queryType);
+			String info = snowstormTestComponent.getEndpointInfo(this.queryType, this.conceptId, getRandom(conceptIds), this.searchTerm);
+			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(this.queryType);
+			int targetIndex = snowstormTestComponent.getFhirIndexStorage(this.queryType);
+			String terminologyType = snowstormTestComponent.getEndpointTerminology(this.queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			String json = getRawJsonDataFromHost(this.host, path, info);
@@ -165,15 +159,14 @@ public class RestAPITest implements Runnable
 		try 
 		{
 			this.startTestTime = System.currentTimeMillis();
-			int selectedId = getRandom(conceptIds);
 			if (this.host == null) {
 				this.host = "http://localhost:8080/snowowl/";
 			}
-			String path = snowOwlTestComponent.getEndpointPath(queryType);
-			String info = snowOwlTestComponent.getEndpointInfo(queryType, selectedId, getRandom(conceptIds), searchTerm);
-			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(queryType);
-			int targetIndex = snowOwlTestComponent.getFhirIndexStorage(queryType);
-			String terminologyType = snowOwlTestComponent.getEndpointTerminology(queryType);
+			String path = snowOwlTestComponent.getEndpointPath(this.queryType);
+			String info = snowOwlTestComponent.getEndpointInfo(this.queryType, this.conceptId, getRandom(conceptIds), this.searchTerm);
+			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(this.queryType);
+			int targetIndex = snowOwlTestComponent.getFhirIndexStorage(this.queryType);
+			String terminologyType = snowOwlTestComponent.getEndpointTerminology(this.queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			String json = getRawJsonDataFromHost(this.host, path, info);
@@ -259,12 +252,9 @@ public class RestAPITest implements Runnable
 	        Object keyValue = jsonObj.get(key);
 
 	        //recursive iteration if objects are nested
-	        //System.out.println("key: "+ key + " value: " + keyValue + " target: " + target); //debug
 	        if (keyValue instanceof JSONObject) {
-	        	//System.out.println("Found JSON" + keyValue); //debug
 	            targetValues.addAll(getJsonKeyValue((JSONObject)keyValue, target));
 	        } else if (keyValue instanceof JSONArray) {
-	        	//System.out.println("Found ARRAY " + keyValue); //debug
 	        	JSONArray tempArray = jsonObj.getJSONArray(key);
 	        	for (int i = 0; i < tempArray.length(); i++) {
 	        		Object tempValue = tempArray.get(i);

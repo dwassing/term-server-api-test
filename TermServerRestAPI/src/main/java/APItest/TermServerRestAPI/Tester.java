@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 public class Tester 
 {
-	private static String[] supportedQueryTypes = {"concept-query", "concept-finder", "concept-lookup", "concept-subsumption", "concept-translation"};
+	private static String[] supportedQueryTypes = {"concept-query", "concept-finder", "concept-top", "concept-lookup", "concept-subsumption", "concept-translation"};
 	
 	public static void main( String[] args )
 	{ 
@@ -23,11 +23,16 @@ public class Tester
     		System.out.println("First argument MUST NOT be null and MUST be a supported terminology.");
 	    } else if (!(Arrays.stream(supportedQueryTypes).anyMatch(args[1]::equals))){
 	    	System.out.println("Wrong query type specified in second argument. Check supported types.");
+	    } else if (args.length > 3){ //If we have more than 3 arguments then it is a fully custom Rest API test. The constructor then deduces what type of test we are doing.
+	    	try {
+	    		RestAPITest R0 = new RestAPITest(args[0], args[1], args[2], Integer.parseInt(args[3]));
+	    		R0.start();
+	    	} catch (NumberFormatException e) { //if arg[3] is not an int, then we assume it is a search term.
+	        	RestAPITest R0 = new RestAPITest(args[0], args[1], args[2], args[3]);
+	        	R0.start();
+	        }
 	    } else if (args[2]==null || Integer.parseInt(args[2]) < 1) {
 	    	System.out.println("Third argument has to be a number greater than 0.");
-	    } else if (args.length > 3){ //If we have more than 3 arguments then it is a fully custom Rest API test. The constructor then deduces what type of test we are doing.
-	    	RestAPITest R0 = new RestAPITest(args[0], args[1], args[2], args[3]);
-	    	R0.start();
 	    } else if (args[0].equals(RestAPITest.SNOWOWL)) { //if we made it here, create i amount of threads for the requested server.
 	    	for (int i = 0; i < Integer.parseInt(args[2]); i++) {
 	    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWOWL, args[1], Integer.toString(i));

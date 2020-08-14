@@ -1,5 +1,9 @@
 package APItest.TermServerRestAPI;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class SnowOwlTestComponent extends TestComponent {
 	
 	@Override
@@ -27,9 +31,9 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-query":
 			return "snomed-ct/v3/MAIN/concepts/";
 		case "concept-finder":
-			return ""; //TODO: add this
+			return "snomed-ct/v3/MAIN/concepts"; //Deliberately not including a slash
 		case "concept-top":
-			return ""; //TODO: add this
+			return "snomed-ct/v3/MAIN/concepts/";
 		case "concept-lookup":
 			return "fhir/CodeSystem/";
 		case "concept-subsumption":
@@ -41,14 +45,14 @@ public class SnowOwlTestComponent extends TestComponent {
 	}
 
 	@Override
-	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) {
+	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
 		case "concept-query":
 			return Integer.toString(codeA) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
 		case "concept-finder":
-			return "?activeFilter=true&term=" + searchTerm + "&offset=0&limit=50"; //TODO: Currently a placeholder from snowstorm, REPLACE ME
+			return "?expand=pt()&limit=50&term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString());
 		case "concept-top":
-			return ""; //TODO: add this
+			return Integer.toString(codeA) + "?expand=pt()";
 		case "concept-lookup":
 			return "$lookup?code=" + Integer.toString(codeA) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
 		case "concept-subsumption":
@@ -81,7 +85,7 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-finder":
 			return "term";
 		case "concept-top":
-			return "iconId";
+			return "iconId"; //straight off the bat returns top concept id. Wonder if snowstorm can do the same...
 		}
 		return "";
 	}

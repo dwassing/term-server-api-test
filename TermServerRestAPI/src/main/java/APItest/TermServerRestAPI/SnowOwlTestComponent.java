@@ -1,10 +1,8 @@
 package APItest.TermServerRestAPI;
 
-//Maybe possible to rewrite this with Maps, but would be harder to implement ambiguity in parameter depending info.
-
-//Generates path, information and relevant values to look at for the endpoint used
-public class SnowOwlTestComponent {
+public class SnowOwlTestComponent extends TestComponent {
 	
+	@Override
 	public String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -23,7 +21,7 @@ public class SnowOwlTestComponent {
 		return "";
 	}
 	
-	//returns the path needed to access the direct endpoint, depending on type of query done
+	@Override
 	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -41,8 +39,8 @@ public class SnowOwlTestComponent {
 		}
 		return "";
 	}
-	
-	//returns additional information such as extra parameters, codeB is randomly generated currently.
+
+	@Override
 	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) {
 		switch(queryType) {
 		case "concept-query":
@@ -61,7 +59,8 @@ public class SnowOwlTestComponent {
 		return "";
 	}
 	
-	//In case of FHIR, return index of param we are looking for
+	
+	@Override
 	public int getFhirIndexStorage(String queryType) {
 		switch(queryType) {
 		case "concept-lookup":
@@ -74,7 +73,7 @@ public class SnowOwlTestComponent {
 		return -1;
 	}
 	
-	//In case of SNOMED CT, returns the values of the JSON objects that we are interested in
+	@Override
 	public String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":

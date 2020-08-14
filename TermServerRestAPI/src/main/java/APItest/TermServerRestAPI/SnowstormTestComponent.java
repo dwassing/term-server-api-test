@@ -4,10 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-//Generates path, information and relevant values to look at for the endpoint used
-public class SnowstormTestComponent {
+public class SnowstormTestComponent extends TestComponent {
 	
-	//returns either SNOMED CT or FHIR depending on what endpoint we are interested in.
+	@Override
 	public String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -26,7 +25,7 @@ public class SnowstormTestComponent {
 		return "";
 	}
 	
-	//returns the path needed to access the direct endpoint, depending on type of query done
+	@Override
 	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -45,7 +44,7 @@ public class SnowstormTestComponent {
 		return "";
 	}
 	
-	//returns additional information such as extra parameters, codeB is randomly generated currently.
+	@Override
 	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
 		case "concept-query":
@@ -66,7 +65,7 @@ public class SnowstormTestComponent {
 		return "";
 	}
 	
-	//In case of FHIR, return index of param we are looking for
+	@Override
 	public int getFhirIndexStorage(String queryType) {
 		switch(queryType) {
 		case "concept-lookup":
@@ -79,7 +78,7 @@ public class SnowstormTestComponent {
 		return -1;
 	}
 	
-	//In case of SNOMED CT, returns the values of the JSON objects that we are interested in
+	@Override
 	public String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":

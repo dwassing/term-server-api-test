@@ -14,7 +14,8 @@ public class Tester
 	{ 
 		//Invoke the tester from control panel with the arguments <server> <query> <# threads>
 		
-		//If invoked externally, provide exactly 4 arguments: <server> <query> <host> and either <conceptIds> or <searchTerm>
+		//If invoked externally, provide exactly 4 arguments: <server> <query> <host> and either <conceptId> or <searchTerm>
+		//Additional note about searchTerm: concatenate several words with the '+' sign.
 		BasicConfigurator.configure();
 		Logger.getLogger("ca.uhn.fhir.util.VersionUtil").setLevel(Level.OFF);
 		Logger.getLogger("ca.uhn.fhir.context.ModelScanner").setLevel(Level.OFF);
@@ -28,7 +29,7 @@ public class Tester
 	    		RestAPITest R0 = new RestAPITest(args[0], args[1], args[2], Integer.parseInt(args[3]));
 	    		R0.start();
 	    	} catch (NumberFormatException e) { //if arg[3] is not an int, then we assume it is a search term.
-	        	RestAPITest R0 = new RestAPITest(args[0], args[1], args[2], args[3]);
+	        	RestAPITest R0 = new RestAPITest(args[0], args[1], args[2], args[3].replace('+', ' '));
 	        	R0.start();
 	        }
 	    } else if (args[2]==null || Integer.parseInt(args[2]) < 1) {

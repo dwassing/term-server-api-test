@@ -11,6 +11,8 @@ public class SnowOwlTestComponent {
 			return "SNOMED CT";
 		case "concept-finder":
 			return "SNOMED CT";
+		case "concept-top":
+			return "SNOMED CT";
 		case "concept-lookup":
 			return "FHIR";
 		case "concept-subsumption":
@@ -25,14 +27,17 @@ public class SnowOwlTestComponent {
 	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
-			return "snomed-ct/v3/MAIN/international/20200309/concepts/";
-			//return "snomed-ct/v3/MAIN%2Finternational%2F20200309/concepts/";
+			return "snomed-ct/v3/MAIN/concepts/";
+		case "concept-finder":
+			return ""; //TODO: add this
+		case "concept-top":
+			return ""; //TODO: add this
 		case "concept-lookup":
 			return "fhir/CodeSystem/";
 		case "concept-subsumption":
 			return "fhir/CodeSystem/";
 		case "concept-translation":
-			return "fhir/ConceptMap"; //TODO: add this
+			return "fhir/ConceptMap/";
 		}
 		return "";
 	}
@@ -44,12 +49,14 @@ public class SnowOwlTestComponent {
 			return Integer.toString(codeA) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
 		case "concept-finder":
 			return "?activeFilter=true&term=" + searchTerm + "&offset=0&limit=50"; //TODO: Currently a placeholder from snowstorm, REPLACE ME
+		case "concept-top":
+			return ""; //TODO: add this
 		case "concept-lookup":
 			return "$lookup?code=" + Integer.toString(codeA) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
 		case "concept-subsumption":
 			return "$subsumes?codeA=" + Integer.toString(codeA) + "&codeB=" + Integer.toString(codeB) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
 		case "concept-translation":
-			return ""; //TODO: add this
+			return ""; //TODO: add this, if SNOW OWL answers the issue on GitHub with a fix.
 		}
 		return "";
 	}
@@ -74,6 +81,8 @@ public class SnowOwlTestComponent {
 			return "term";
 		case "concept-finder":
 			return "term";
+		case "concept-top":
+			return "iconId";
 		}
 		return "";
 	}

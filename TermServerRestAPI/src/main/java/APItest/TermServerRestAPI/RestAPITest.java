@@ -38,7 +38,7 @@ public class RestAPITest implements Runnable
     private String searchTerm = "blood pressure"; //placeholder
     
     /**
-     * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types
+     * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types.
      * @param name
      * @param type
      * @param exthost
@@ -57,7 +57,7 @@ public class RestAPITest implements Runnable
     }
     
     /**
-     * Constructor for testing using an external search term, see javadoc for supported query types
+     * Constructor for testing using an external search term, see javadoc for supported query types.
      * @param name
      * @param type
      * @param exthost
@@ -76,7 +76,12 @@ public class RestAPITest implements Runnable
         System.out.println("Creating " + threadName + queryType + threadId + " with search term: " + externalSearchTerm);
     }
     
-    //Default constructor for a thread within the rest API test
+    /**
+     * Default constructor for a thread within the rest API test.
+     * @param name
+     * @param type
+     * @param id
+     */
     public RestAPITest(String name, String type, String id) 
     {
         threadName = name;
@@ -102,18 +107,15 @@ public class RestAPITest implements Runnable
     	return this.conceptId;
     }
 
+    //Run method overridden from Runnable
 	@Override
 	public void run() 
 	{
 		try 
 		{
-			if (this.threadName.equals(SNOWOWL))
+			if (this.threadName.equals(SNOWOWL) || (this.threadName.contentEquals(SNOWSTORM)))
 			{
-				runSnowOwl();
-			} 
-			else if (this.threadName.equals(SNOWSTORM)) 
-			{
-				runSnowstorm();
+				runServerTest();
 			}
 			else 
 			{
@@ -127,61 +129,53 @@ public class RestAPITest implements Runnable
 		System.out.println("Thread " +  threadName + queryType + threadId + " exiting.");
 	}
 	
-	private void runSnowstorm() {
-		try 
-		{
+	/**
+	 * Main running class of the REST API test. Performs all other calls. Uses threadname to deduce
+	 * which test component to invoke, and if no host is given it appends a matching localhost.
+	 */
+	private void runServerTest() {
+		try {
+			TestComponent testComponent = new TestComponent();
 			this.startTestTime = System.currentTimeMillis();
-			if (this.host == null) {
-				this.host = "http://localhost:8080/";
+			if (this.threadName.equals(SNOWOWL)) {
+				testComponent = snowOwlTestComponent;
+				if (this.host == null) {
+					this.host = "http://localhost:8080/snowowl/";
+				}
+			} else if (this.threadName.equals(SNOWSTORM)) {
+				testComponent = snowstormTestComponent;
+				if (this.host == null) {
+					this.host = "http://localhost:8080/";
+				}
 			}
-			String path = snowstormTestComponent.getEndpointPath(this.queryType);
-			String info = snowstormTestComponent.getEndpointInfo(this.queryType, this.conceptId, getRandom(conceptIds), this.searchTerm);
-			String targetValue = snowstormTestComponent.getInterestingJsonKeyValues(this.queryType);
-			int targetIndex = snowstormTestComponent.getFhirIndexStorage(this.queryType);
-			String terminologyType = snowstormTestComponent.getEndpointTerminology(this.queryType);
+			String path = testComponent.getEndpointPath(this.queryType);
+			String info = testComponent.getEndpointInfo(this.queryType, this.conceptId, getRandom(conceptIds), this.searchTerm);
+			String targetValue = testComponent.getInterestingJsonKeyValues(this.queryType);
+			int targetIndex = testComponent.getFhirIndexStorage(this.queryType);
+			String terminologyType = testComponent.getEndpointTerminology(this.queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
 			String json = getRawJsonDataFromHost(this.host, path, info);
 			ArrayList<String> values = getTheValues(json, targetValue, targetIndex, terminologyType);
-			//long endTime = System.currentTimeMillis() - startTime;
-			//System.out.println("Values: " + values + "; time elapsed: " + endTime + " millisec."); //debug
 			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec.";
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
 			outputWriter.write(output);
-		} 
-		catch (IOException e)
-		{
-			System.out.println("Exception in NetClientGet:- " + e);
+		} catch (IOException e) {
+			System.out.println("Exception in NetclientGet:- " + e);
 		}
 	}
 	
-	private void runSnowOwl() {
-		try 
-		{
-			this.startTestTime = System.currentTimeMillis();
-			if (this.host == null) {
-				this.host = "http://localhost:8080/snowowl/";
-			}
-			String path = snowOwlTestComponent.getEndpointPath(this.queryType);
-			String info = snowOwlTestComponent.getEndpointInfo(this.queryType, this.conceptId, getRandom(conceptIds), this.searchTerm);
-			String targetValue = snowOwlTestComponent.getInterestingJsonKeyValues(this.queryType);
-			int targetIndex = snowOwlTestComponent.getFhirIndexStorage(this.queryType);
-			String terminologyType = snowOwlTestComponent.getEndpointTerminology(this.queryType);
-			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
-			//System.out.println(host + path + info); //debug
-			String json = getRawJsonDataFromHost(this.host, path, info);
-			ArrayList<String> values = getTheValues(json, targetValue, targetIndex, terminologyType);
-			//long endTime = System.currentTimeMillis() - startTime;
-			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec.";
-			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
-			outputWriter.write(output);
-		} 
-		catch (IOException e)
-		{
-			System.out.println("Exception in NetClientGet:- " + e);
-		}
-	}
-	
+	/**
+	 * Function to perform the REST API connection. Creates an URL to an endpoint given host, path and info. Then extracts
+	 * json data from that endpoint. If necessary, extra characters are prepended and appended to create a proper JSON notation.
+	 * @param host
+	 * @param path
+	 * @param info
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws ProtocolException
+	 */
 	private String getRawJsonDataFromHost(String host, String path, String info) throws MalformedURLException, IOException, ProtocolException{
     	URL url = new URL(host + path + info);
 
@@ -213,6 +207,15 @@ public class RestAPITest implements Runnable
 		return json;
     }
     
+	/**
+	 * Given a FHIR JSON object notation, this function returns any key value one may be interested in. Experimental function
+	 * that uses the HAPI FHIR IParser, see FHIRMapper class. That class currently only returns one item.
+	 * @param jsonString
+	 * @param targetValue
+	 * @param targetIndex
+	 * @param terminologyType
+	 * @return
+	 */
     private ArrayList<String> getTheValues(String jsonString, String targetValue, int targetIndex, String terminologyType){
     	ArrayList<String> returnValues = new ArrayList<String>();
     	JSONObject jsonObject = new JSONObject(jsonString);
@@ -228,6 +231,7 @@ public class RestAPITest implements Runnable
 		return returnValues;
     }
 	
+    //The thread starting function implemented from Runnable.
 	public void start() {
 		System.out.println("Starting " + threadName + queryType + threadId);
 		if (thread == null) {
@@ -236,12 +240,21 @@ public class RestAPITest implements Runnable
 		}
 	}
 	
+	//Helper to return random concept id for testing purposes.
 	private static int getRandom(int[] array) 
 	{
     	int rnd = new Random().nextInt(array.length);
     	return array[rnd];
     }
 	
+	/**
+	 * Given a proper JSON object notation (with any type of nested objects and/or arrays), this function
+	 * returns any key value associated with target key. If target key appears more than once, all values
+	 * are returned. This function is primarily used for SNOMED CT API calls.
+	 * @param jsonObj
+	 * @param target
+	 * @return
+	 */
 	public static ArrayList<String> getJsonKeyValue(JSONObject jsonObj, String target)
 	{
 		Iterator<String> keys = jsonObj.keys();

@@ -34,7 +34,7 @@ public class RestAPITest implements Runnable
     private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
    
     private int conceptId = 404684003; //clinical finding
-    private static final int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia
+    private static final int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia 
     private String searchTerm = "blood pressure"; //placeholder
     
     /**
@@ -255,7 +255,7 @@ public class RestAPITest implements Runnable
 	 * @param target
 	 * @return
 	 */
-	public static ArrayList<String> getJsonKeyValue(JSONObject jsonObj, String target)
+	private static ArrayList<String> getJsonKeyValue(JSONObject jsonObj, String target)
 	{
 		Iterator<String> keys = jsonObj.keys();
 		ArrayList<String> targetValues = new ArrayList<String>();
@@ -265,7 +265,14 @@ public class RestAPITest implements Runnable
 	        Object keyValue = jsonObj.get(key);
 
 	        //recursive iteration if objects are nested
-	        if (keyValue instanceof JSONObject) {
+	        if (key.equals(target)) {
+	        	//System.out.println("Found target: " + target + " with value " + keyValue); //debug
+	        	if (keyValue instanceof JSONArray) {
+	        		targetValues.addAll(pruneKeyValue((JSONArray)keyValue));
+	        	} else {
+	        		targetValues.add((String)keyValue);
+	        	}
+	        } else if (keyValue instanceof JSONObject) {
 	            targetValues.addAll(getJsonKeyValue((JSONObject)keyValue, target));
 	        } else if (keyValue instanceof JSONArray) {
 	        	JSONArray tempArray = jsonObj.getJSONArray(key);
@@ -275,11 +282,21 @@ public class RestAPITest implements Runnable
 	        			targetValues.addAll(getJsonKeyValue((JSONObject)tempValue, target));
 	        		}	        		
 	        	}
-	        } else if (key.equals(target)) {
-	        	//System.out.println("Found target: " + target + " with value " + keyValue); //debug
-	        	targetValues.add((String)keyValue);
 	        }
 	    }
 	    return targetValues;
+	}
+	
+	/**
+	 * Helper function to prune the JSONArray that may be the keyValue of the target we seek.
+	 * @param keyValue
+	 * @return
+	 */
+	private static ArrayList<String> pruneKeyValue(JSONArray keyValue) {
+		ArrayList<String> returnValues = new ArrayList<String>();
+		for(int i = 0; i < keyValue.length(); i++){
+		    returnValues.add((String)keyValue.get(i));
+		}
+		return returnValues;
 	}
 }

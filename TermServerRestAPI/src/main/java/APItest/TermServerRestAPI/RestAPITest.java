@@ -18,7 +18,7 @@ public class RestAPITest implements Runnable
    	public static final String SNOWOWL = "snowowl";
 
 	/**
-     * Supported query types are: concept-query, concept-finder, concept-lookup, concept-subsumption, concept-translation (snowstorm only)
+     * Supported query types are: concept-query, concept-finder, concept-lookup, concept-active, concept-subsumption, concept-translation (snowstorm only), concept-validation
      * Additional note about concept-finder, do not run more than a single thread of this query, it returns a lot of information.
      */
 	
@@ -181,7 +181,7 @@ public class RestAPITest implements Runnable
 	private String getRawJsonDataFromHost(String host, String path, String info) throws MalformedURLException, IOException, ProtocolException{
     	URL url = new URL(host + path + info);
 
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		if (this.threadName.equals(SNOWOWL)) {
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("content-type", "application/json;charset=utf-8");
@@ -271,6 +271,8 @@ public class RestAPITest implements Runnable
 	        	//System.out.println("Found target: " + target + " with value " + keyValue); //debug
 	        	if (keyValue instanceof JSONArray) {
 	        		targetValues.addAll(pruneKeyValue((JSONArray)keyValue));
+	        	} else if (keyValue instanceof Boolean) {
+	        		targetValues.add(keyValue.toString());
 	        	} else {
 	        		targetValues.add((String)keyValue);
 	        	}

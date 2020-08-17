@@ -8,7 +8,8 @@ import org.apache.log4j.Logger;
 
 public class Tester 
 {
-	private static String[] supportedQueryTypes = {"concept-query", "concept-finder", "concept-top", "concept-lookup", "concept-subsumption", "concept-translation"};
+	private static String[] supportedQueryTypes = {"concept-query", "concept-finder", "concept-top", "concept-active", 
+			"concept-lookup", "concept-subsumption", "concept-translation", "concept-validation"};
 	
 	public static void main( String[] args )
 	{ 

@@ -34,7 +34,9 @@ public class RestAPITest implements Runnable
     private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
    
     private int conceptId = 404684003; //clinical finding
-    private static final int[] conceptIds = {373476007, 404684003, 386689009}; //midazolam, clinical finding, hypothermia 
+    private static final int[] conceptIds = {373476007, 404684003, 386689009, 75367002, //midazolam, clinical finding, hypothermia, blood pressure 
+    		89644007, 262582004, 387517004, 399060005, //left ear body structure, burn of face, paracetamol, imaging observable
+    		840539006, 26929004}; //covid-19, alzheimer's disease
     private String searchTerm = "blood pressure"; //placeholder
     
     /**

@@ -5,6 +5,8 @@ import java.io.UnsupportedEncodingException;
 /**
  * This is a super class that all test components extend from. They implement their own methods. 
  * Generates path, information and relevant values to look at for the endpoint accessed.
+ * 
+ * This class will be rewritten as an interface in a future update.
  * @author wassing
  *
  */

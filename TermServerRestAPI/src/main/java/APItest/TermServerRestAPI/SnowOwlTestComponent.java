@@ -89,6 +89,7 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-translation":
 			return 0;
 		case "concept-validation":
+			return 0;
 		}
 		return -1;
 	}

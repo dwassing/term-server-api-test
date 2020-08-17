@@ -1,0 +1,1 @@
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 356 millisec.

@@ -1,0 +1,50 @@
+Values: [279982005, 52448006]; time elapsed: 402 millisec.
+Values: [186747009]; time elapsed: 366 millisec.
+Values: [310611001]; time elapsed: 372 millisec.
+Values: [373504006, 372616003]; time elapsed: 389 millisec.
+Values: [310611001]; time elapsed: 357 millisec.
+Values: [310611001]; time elapsed: 395 millisec.
+Values: [186747009]; time elapsed: 373 millisec.
+Values: [279982005, 52448006]; time elapsed: 414 millisec.
+Values: [262581006, 125593007]; time elapsed: 410 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 433 millisec.
+Values: [186747009]; time elapsed: 333 millisec.
+Values: [186747009]; time elapsed: 351 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 321 millisec.
+Values: [186747009]; time elapsed: 321 millisec.
+Values: [279982005, 52448006]; time elapsed: 345 millisec.
+Values: [279982005, 52448006]; time elapsed: 329 millisec.
+Values: [310611001]; time elapsed: 262 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 368 millisec.
+Values: [186747009]; time elapsed: 353 millisec.
+Values: [758640006, 117590005]; time elapsed: 392 millisec.
+Values: [310611001]; time elapsed: 323 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 323 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 296 millisec.
+Values: [123979008]; time elapsed: 330 millisec.
+Values: [373504006, 372616003]; time elapsed: 341 millisec.
+Values: [373504006, 372616003]; time elapsed: 344 millisec.
+Values: [279982005, 52448006]; time elapsed: 355 millisec.
+Values: [138875005]; time elapsed: 356 millisec.
+Values: [758640006, 117590005]; time elapsed: 373 millisec.
+Values: [373504006, 372616003]; time elapsed: 367 millisec.
+Values: [373504006, 372616003]; time elapsed: 310 millisec.
+Values: [363787002]; time elapsed: 344 millisec.
+Values: [262581006, 125593007]; time elapsed: 342 millisec.
+Values: [373504006, 372616003]; time elapsed: 347 millisec.
+Values: [310611001]; time elapsed: 382 millisec.
+Values: [373504006, 372616003]; time elapsed: 282 millisec.
+Values: [123979008]; time elapsed: 361 millisec.
+Values: [758640006, 117590005]; time elapsed: 469 millisec.
+Values: [138875005]; time elapsed: 399 millisec.
+Values: [363787002]; time elapsed: 354 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 282 millisec.
+Values: [186747009]; time elapsed: 335 millisec.
+Values: [310611001]; time elapsed: 330 millisec.
+Values: [758640006, 117590005]; time elapsed: 364 millisec.
+Values: [758640006, 117590005]; time elapsed: 365 millisec.
+Values: [758640006, 117590005]; time elapsed: 290 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 351 millisec.
+Values: [262581006, 125593007]; time elapsed: 331 millisec.
+Values: [363787002]; time elapsed: 319 millisec.
+Values: [123979008]; time elapsed: 414 millisec.

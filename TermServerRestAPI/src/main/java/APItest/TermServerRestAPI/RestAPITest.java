@@ -36,8 +36,8 @@ public class RestAPITest implements Runnable
     private int conceptId = 404684003; //clinical finding
     private static final int[] conceptIds = {373476007, 404684003, 386689009, 75367002, //midazolam, clinical finding, hypothermia, blood pressure 
     		89644007, 262582004, 387517004, 399060005, //left ear body structure, burn of face, paracetamol, imaging observable
-    		840539006, 26929004}; //covid-19, alzheimer's disease
-    private String searchTerm = "blood pressure"; //placeholder
+    		840539006, 26929004, 181216001, 85562004}; //covid-19, alzheimer's disease, entire lung, hand structure
+    private String searchTerm = "blood pressure"; //search terms: blood pressure, shoulder fracture, covid
     
     /**
      * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types.
@@ -108,7 +108,7 @@ public class RestAPITest implements Runnable
     public int getConceptId() {
     	return this.conceptId;
     }
-
+    
     //Run method overridden from Runnable
 	@Override
 	public void run() 
@@ -159,7 +159,7 @@ public class RestAPITest implements Runnable
 			//System.out.println(host + path + info); //debug
 			String json = getRawJsonDataFromHost(this.host, path, info);
 			ArrayList<String> values = getTheValues(json, targetValue, targetIndex, terminologyType);
-			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec.";
+			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec."; //
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
 			outputWriter.write(output);
 		} catch (IOException e) {

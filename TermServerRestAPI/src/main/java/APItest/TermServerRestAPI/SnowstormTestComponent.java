@@ -68,14 +68,14 @@ public class SnowstormTestComponent extends TestComponent {
 		case "concept-lookup":
 			return "$lookup?system=http://snomed.info/sct&code=" + Integer.toString(codeA);
 		case "concept-subsumption":
-			return "$subsumes?system=http://snomed.info/sct&codeA=" + Integer.toString(codeA) + "&codeB=" + Integer.toString(codeB);
+			return "$subsumes?system=http://snomed.info/sct&codeA=" + Integer.toString(codeA) + "&codeB=" + "404684003"; //hardcoded to clinical finding //Integer.toString(codeB);
 		case "concept-translation": //hardcoded. The HAPI FHIR mapper currently returns only if a translation to ICD10 exists or not (true or false).
 			return "$translate?code=" + Integer.toString(codeA) + 
 					"&system=http://snomed.info/sct&source=http://snomed.info/sct?fhir_vs&target=http://hl7.org/fhir/sid/icd-10" + 
 					"&url=http://snomed.info/sct/900000000000207008/version/20200309?fhir_cm=447562003";
 		case "concept-validation": //hardcoded, like concept-translation above to test against the ICD 10 complex map reference set
 			return "$validate-code?system=http://snomed.info/sct&code=" + Integer.toString(codeA) + 
-					"&url=http://snomed.info/sct/900000000000207008/version/20200309?fhir_vs=refset/447562003";
+					"&url=http://snomed.info/sct/900000000000207008/version/20200309?fhir_vs=refset/723264001"; //ICD-10 complex map reference set 447562003 available as well
 		}
 		return "";
 		

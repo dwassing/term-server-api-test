@@ -60,7 +60,7 @@ public class SnowstormTestComponent extends TestComponent {
 		case "concept-query":
 			return Integer.toString(codeA);
 		case "concept-finder":
-			return "?activeFilter=true&term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString()) + "&offset=0&limit=50";
+			return "?term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString()) + "&offset=0&limit=500";
 		case "concept-top": 
 			return Integer.toString(codeA) + "/parents?form=inferred&includeDescendantCount=false";
 		case "concept-active": //essentially the same endpoint as concept-query

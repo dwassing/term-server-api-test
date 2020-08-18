@@ -1,0 +1,50 @@
+Values: [COVID-19]; time elapsed: 1566 millisec.
+Values: [COVID-19]; time elapsed: 1650 millisec.
+Values: [Midazolam]; time elapsed: 1626 millisec.
+Values: [Imaging observable]; time elapsed: 1610 millisec.
+Values: [Entire lung]; time elapsed: 1717 millisec.
+Values: [Midazolam]; time elapsed: 1740 millisec.
+Values: [Left ear structure]; time elapsed: 1545 millisec.
+Values: [Entire lung]; time elapsed: 1473 millisec.
+Values: [Burn of face]; time elapsed: 1607 millisec.
+Values: [Hypothermia]; time elapsed: 1635 millisec.
+Values: [Paracetamol]; time elapsed: 1003 millisec.
+Values: [COVID-19]; time elapsed: 1000 millisec.
+Values: [Clinical finding]; time elapsed: 996 millisec.
+Values: [COVID-19]; time elapsed: 1007 millisec.
+Values: [Clinical finding]; time elapsed: 1056 millisec.
+Values: [Midazolam]; time elapsed: 997 millisec.
+Values: [Imaging observable]; time elapsed: 1032 millisec.
+Values: [Burn of face]; time elapsed: 944 millisec.
+Values: [COVID-19]; time elapsed: 974 millisec.
+Values: [Hand structure]; time elapsed: 985 millisec.
+Values: [COVID-19]; time elapsed: 1104 millisec.
+Values: [Paracetamol]; time elapsed: 938 millisec.
+Values: [Hypothermia]; time elapsed: 982 millisec.
+Values: [Blood pressure]; time elapsed: 1079 millisec.
+Values: [Hand structure]; time elapsed: 992 millisec.
+Values: [Hypothermia]; time elapsed: 1061 millisec.
+Values: [Blood pressure]; time elapsed: 1158 millisec.
+Values: [COVID-19]; time elapsed: 1005 millisec.
+Values: [Left ear structure]; time elapsed: 1043 millisec.
+Values: [Blood pressure]; time elapsed: 1109 millisec.
+Values: [Midazolam]; time elapsed: 1090 millisec.
+Values: [Imaging observable]; time elapsed: 1056 millisec.
+Values: [Clinical finding]; time elapsed: 1059 millisec.
+Values: [Burn of face]; time elapsed: 1068 millisec.
+Values: [Imaging observable]; time elapsed: 1115 millisec.
+Values: [Burn of face]; time elapsed: 1021 millisec.
+Values: [Left ear structure]; time elapsed: 1100 millisec.
+Values: [Alzheimer's disease]; time elapsed: 1081 millisec.
+Values: [Blood pressure]; time elapsed: 1110 millisec.
+Values: [Imaging observable]; time elapsed: 1088 millisec.
+Values: [Clinical finding]; time elapsed: 947 millisec.
+Values: [Imaging observable]; time elapsed: 821 millisec.
+Values: [Entire lung]; time elapsed: 971 millisec.
+Values: [Hand structure]; time elapsed: 924 millisec.
+Values: [Clinical finding]; time elapsed: 965 millisec.
+Values: [Midazolam]; time elapsed: 889 millisec.
+Values: [Clinical finding]; time elapsed: 817 millisec.
+Values: [Alzheimer's disease]; time elapsed: 944 millisec.
+Values: [Imaging observable]; time elapsed: 973 millisec.
+Values: [Burn of face]; time elapsed: 964 millisec.

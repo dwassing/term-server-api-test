@@ -1,0 +1,1 @@
+Values: [COVID-19, SARS-CoV-2 vaccination, Suspected COVID-19]; time elapsed: 155 millisec.

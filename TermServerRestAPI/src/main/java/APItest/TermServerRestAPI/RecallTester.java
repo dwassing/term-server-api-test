@@ -26,7 +26,7 @@ public class RecallTester
 		ArrayList<String> missingB = new ArrayList<String>();
 		String output = "";
 		
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("/home/wassing/Desktop/Snowstorm" + args[0]))) //change location to where ever needed
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("/home/wassing/Desktop/Snowstorm/" + args[0]))) //change location to where ever needed
         {
 
             // read line by line
@@ -41,7 +41,7 @@ public class RecallTester
         }
         Set<String> valuesFileA = new HashSet<String>(Arrays.asList(output.split(", ")));
         output = "";
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("/home/wassing/Desktop/Snowowl" + args[1]))) //change location to where ever needed
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("/home/wassing/Desktop/Snowowl/" + args[1]))) //change location to where ever needed
         {
 
             // read line by line
@@ -53,7 +53,7 @@ public class RecallTester
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
         }
-        Set<String> valuesFileB = new HashSet<String>(Arrays.asList(output.split(" ")));
+        Set<String> valuesFileB = new HashSet<String>(Arrays.asList(output.split(", ")));
         System.out.println("Set sizes are: " + valuesFileA.size() + " for A, and " + valuesFileB.size() + " for B.");
         for (String temp : valuesFileA) {
         	if(!(valuesFileB.contains(temp))) {

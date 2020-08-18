@@ -61,7 +61,7 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-query":
 			return Integer.toString(codeA) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
 		case "concept-finder":
-			return "?expand=pt()&limit=50&term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString());
+			return "?expand=" + URLEncoder.encode("pt(), fsn()", StandardCharsets.UTF_8.toString()) + "&limit=50&term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString()); //can use expand=fsn()
 		case "concept-top":
 			return Integer.toString(codeA);
 		case "concept-active":

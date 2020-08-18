@@ -42,7 +42,7 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-top":
 			return "snomed-ct/v3/MAIN/concepts/";
 		case "concept-active":
-			return "snomed-ct/v3/MAIN/concepts/"; //TODO: verify this
+			return "snomed-ct/v3/MAIN/concepts/";
 		case "concept-lookup":
 			return "fhir/CodeSystem/";
 		case "concept-subsumption":
@@ -63,17 +63,18 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-finder":
 			return "?expand=pt()&limit=50&term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString());
 		case "concept-top":
-			return Integer.toString(codeA) + "?expand=pt()";
+			return Integer.toString(codeA);
 		case "concept-active":
-			return Integer.toString(codeA); //TODO: verify this
+			return Integer.toString(codeA);
 		case "concept-lookup":
 			return "$lookup?code=" + Integer.toString(codeA) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
 		case "concept-subsumption":
-			return "$subsumes?codeA=" + Integer.toString(codeA) + "&codeB=" + Integer.toString(codeB) + "&system=http://snomed.info/sct/900000000000207008/version/20200309";
+			return "$subsumes?codeA=" + Integer.toString(codeA) + "&codeB=" + "404684003" + "&system=http://snomed.info/sct/900000000000207008/version/20200309"; //hardcoded to clinical finding
 		case "concept-translation":
 			return ""; //TODO: add this, if SNOW OWL answers the issue on GitHub with a fix.
 		case "concept-validation":
-			return ""; //TODO: add this, if it works. Remember to use 20200309 version.
+			return "$validate-code?code=" + Integer.toString(codeA) + "&system=http://snomed.info/sct" + 
+					"&url=http://snomed.info/sct/900000000000207008/version/20200309?fhir_vs=refset/723264001"; //Lateralizable body structure reference set. ICD-10 not available.
 		}
 		return "";
 	}
@@ -104,7 +105,7 @@ public class SnowOwlTestComponent extends TestComponent {
 		case "concept-top":
 			return "iconId"; //straight off the bat returns top concept id. Wonder if snowstorm can do the same...
 		case "concept-active":
-			return "active"; //TODO: verify this
+			return "active";
 		}
 		return "";
 	}

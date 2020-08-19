@@ -1,0 +1,90 @@
+Values: [Hand structure (body structure), Hand structure]; time elapsed: 1054 millisec.
+Values: [Entire lung (body structure), Entire lung]; time elapsed: 1021 millisec.
+Values: [307113009]; time elapsed: 1965 millisec.
+Values: [766776008, 763836003, 417551008, 373216001]; time elapsed: 2330 millisec.
+Values: [758640006, 117590005]; time elapsed: 3452 millisec.
+Values: [true]; time elapsed: 5420 millisec.
+Values: [Left ear structure (body structure), Left ear structure]; time elapsed: 5641 millisec.
+Values: [Clinical finding (finding), Clinical finding]; time elapsed: 6960 millisec.
+Values: [714324006, 187639008, 116005007, 39607008]; time elapsed: 7337 millisec.
+Values: [363787002]; time elapsed: 7363 millisec.
+Values: [262581006, 125593007]; time elapsed: 7399 millisec.
+Values: [123979008]; time elapsed: 7664 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 8856 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 9042 millisec.
+Values: [subsumed-by]; time elapsed: 8888 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 12874 millisec.
+Values: [subsumed-by]; time elapsed: 16964 millisec.
+Values: [Imaging observable]; time elapsed: 17677 millisec.
+Values: [COVID-19]; time elapsed: 18287 millisec.
+Values: [Left ear structure]; time elapsed: 19102 millisec.
+Values: [not-subsumed]; time elapsed: 23239 millisec.
+Values: [not-subsumed]; time elapsed: 23271 millisec.
+Values: [not-subsumed]; time elapsed: 23267 millisec.
+Values: [BooleanType[false]]; time elapsed: 24824 millisec.
+Values: [BooleanType[false]]; time elapsed: 24879 millisec.
+Values: [BooleanType[false]]; time elapsed: 24885 millisec.
+Values: [BooleanType[false]]; time elapsed: 24909 millisec.
+Values: [BooleanType[false]]; time elapsed: 26152 millisec.
+Values: [BooleanType[false]]; time elapsed: 26716 millisec.
+Values: [BooleanType[false]]; time elapsed: 26900 millisec.
+Values: [Alzheimer's disease (disorder), Alzheimer's disease]; time elapsed: 2143 millisec.
+Values: [758640006, 117590005]; time elapsed: 2170 millisec.
+Values: [true]; time elapsed: 2694 millisec.
+Values: [true]; time elapsed: 3117 millisec.
+Values: [true]; time elapsed: 4374 millisec.
+Values: [Left ear structure (body structure), Left ear structure]; time elapsed: 4360 millisec.
+Values: [Hypothermia (finding), Hypothermia]; time elapsed: 4381 millisec.
+Values: [Midazolam (substance), Midazolam]; time elapsed: 4332 millisec.
+Values: [310611001]; time elapsed: 4946 millisec.
+Values: [123979008]; time elapsed: 5310 millisec.
+Values: [279982005, 52448006]; time elapsed: 5135 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6419 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6318 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6441 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6541 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6500 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6545 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 6402 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 7687 millisec.
+Values: [not-subsumed]; time elapsed: 10380 millisec.
+Values: [not-subsumed]; time elapsed: 10532 millisec.
+Values: [not-subsumed]; time elapsed: 11160 millisec.
+Values: [not-subsumed]; time elapsed: 10709 millisec.
+Values: [not-subsumed]; time elapsed: 10056 millisec.
+Values: [Burn of face]; time elapsed: 11075 millisec.
+Values: [BooleanType[false]]; time elapsed: 15292 millisec.
+Values: [BooleanType[false]]; time elapsed: 16283 millisec.
+Values: [BooleanType[false]]; time elapsed: 17546 millisec.
+Values: [BooleanType[false]]; time elapsed: 17875 millisec.
+Values: [BooleanType[false]]; time elapsed: 17936 millisec.
+Values: [Paracetamol (substance), Acetaminophen]; time elapsed: 676 millisec.
+Values: [279982005, 52448006]; time elapsed: 690 millisec.
+Values: [true]; time elapsed: 1415 millisec.
+Values: [true]; time elapsed: 4369 millisec.
+Values: [equivalent]; time elapsed: 115 millisec.
+Values: [279982005, 52448006]; time elapsed: 5174 millisec.
+Values: [Entire lung (body structure), Entire lung]; time elapsed: 5287 millisec.
+Values: [Clinical finding (finding), Clinical finding]; time elapsed: 5349 millisec.
+Values: [true]; time elapsed: 5319 millisec.
+Values: [Entire lung (body structure), Entire lung]; time elapsed: 6250 millisec.
+Values: [Midazolam (substance), Midazolam]; time elapsed: 6298 millisec.
+Values: [true]; time elapsed: 6998 millisec.
+Values: [373504006, 372616003]; time elapsed: 7134 millisec.
+Values: [373504006, 372616003]; time elapsed: 7126 millisec.
+Values: [186747009]; time elapsed: 7247 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 8798 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 8987 millisec.
+Values: [Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder), COVID-19, Suspected disease caused by severe acute respiratory coronavirus 2 (situation), Suspected COVID-19, Severe acute respiratory syndrome coronavirus 2 vaccination (procedure), SARS-CoV-2 vaccination]; time elapsed: 9805 millisec.
+Values: [Midazolam]; time elapsed: 10838 millisec.
+Values: [Clinical finding]; time elapsed: 14174 millisec.
+Values: [Imaging observable]; time elapsed: 14368 millisec.
+Values: [Burn of face]; time elapsed: 14443 millisec.
+Values: [Acetaminophen]; time elapsed: 15599 millisec.
+Values: [not-subsumed]; time elapsed: 15999 millisec.
+Values: [BooleanType[true]]; time elapsed: 17972 millisec.
+Values: [BooleanType[false]]; time elapsed: 18782 millisec.
+Values: [BooleanType[false]]; time elapsed: 19183 millisec.
+Values: [BooleanType[false]]; time elapsed: 19710 millisec.
+Values: [BooleanType[false]]; time elapsed: 19979 millisec.
+Values: [BooleanType[false]]; time elapsed: 20297 millisec.

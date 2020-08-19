@@ -1,6 +1,7 @@
 package APItest.TermServerRestAPI;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -9,7 +10,7 @@ import org.apache.log4j.Logger;
 public class Tester 
 {
 	private static String[] supportedQueryTypes = {"concept-query", "concept-finder", "concept-top", "concept-active", 
-			"concept-lookup", "concept-subsumption", "concept-translation", "concept-validation"};
+			"concept-lookup", "concept-subsumption", "concept-validation"}; //, "concept-translation"
 	
 	public static void main( String[] args )
 	{ 
@@ -38,11 +39,15 @@ public class Tester
 	    } else if (args[0].equals(RestAPITest.SNOWOWL)) { //if we made it here, create i amount of threads for the requested server.
 	    	for (int i = 0; i < Integer.parseInt(args[2]); i++) {
 	    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWOWL, args[1], Integer.toString(i));
+	    		//int rnd = new Random().nextInt(supportedQueryTypes.length);
+	    		//R1.setQueryType(supportedQueryTypes[rnd]);
 	    		R1.start();
 	    	}
     	} else if (args[0].equals(RestAPITest.SNOWSTORM)) {
     		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
 	    		RestAPITest R2 = new RestAPITest(RestAPITest.SNOWSTORM, args[1], Integer.toString(i));
+	    		//int rnd = new Random().nextInt(supportedQueryTypes.length);
+	    		//R2.setQueryType(supportedQueryTypes[rnd]);
 	    		R2.start();
 	    	}
     	} else {

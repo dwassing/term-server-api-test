@@ -9,4 +9,4 @@ Supports lookup of concept properties including preferred terms (PTs), fully spe
 Supports searching for concepts and their id tags given a search expression.
 Supports the FHIR endpoints of $lookup, $subsumption and $translate. More support is easily added, please submit an issue for any endpoint you would like support for.
 
-There is another thread-less project intended for direct communication between servers and external software. Please submit a request for this software to d.wassing@gmail.com.
+There is another thread-less project intended for direct communication between servers and external software. This software can be found in the IntegrationTest zip file. However, it does not receive updates and bugfixes at the same rate as this repository does.

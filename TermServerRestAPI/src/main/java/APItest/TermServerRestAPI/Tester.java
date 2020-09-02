@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 
 public class Tester 
 {
-	private static String[] supportedQueryTypes = {"concept-query", "concept-finder", "concept-top", "concept-active", 
-			"concept-lookup", "concept-subsumption", "concept-validation"}; //, "concept-translation"
+	private static final String[] SUPPORTED_QUERY_TYPES = {"concept-query", "concept-finder", "concept-top", "concept-active", 
+			"concept-lookup", "concept-subsumption", "concept-validation", "concept-translation", "query-random"};
 	
 	public static void main( String[] args )
 	{ 
@@ -23,8 +23,8 @@ public class Tester
 		Logger.getLogger("ca.uhn.fhir.context.ModelScanner").setLevel(Level.OFF);
 		Logger.getRootLogger().setLevel(Level.OFF);
 	    if((args[0]==null) || !(args[0].equals(RestAPITest.SNOWOWL) || args[0].equals(RestAPITest.SNOWSTORM))) {
-    		System.out.println("First argument MUST NOT be null and MUST be a supported terminology.");
-	    } else if (!(Arrays.stream(supportedQueryTypes).anyMatch(args[1]::equals))){
+    		System.out.println("First argument MUST NOT be null and MUST be a supported terminology server.");
+	    } else if (!(Arrays.stream(SUPPORTED_QUERY_TYPES).anyMatch(args[1]::equals))){
 	    	System.out.println("Wrong query type specified in second argument. Check supported types.");
 	    } else if (args.length > 3){ //If we have more than 3 arguments then it is a fully custom Rest API test. The constructor then deduces what type of test we are doing.
 	    	try {
@@ -37,18 +37,32 @@ public class Tester
 	    } else if (args[2]==null || Integer.parseInt(args[2]) < 1) {
 	    	System.out.println("Third argument has to be a number greater than 0.");
 	    } else if (args[0].equals(RestAPITest.SNOWOWL)) { //if we made it here, create i amount of threads for the requested server.
-	    	for (int i = 0; i < Integer.parseInt(args[2]); i++) {
-	    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWOWL, args[1], Integer.toString(i));
-	    		//int rnd = new Random().nextInt(supportedQueryTypes.length);
-	    		//R1.setQueryType(supportedQueryTypes[rnd]);
-	    		R1.start();
+	    	if (args[1].equals("query-random")) {
+	    		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
+		    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWOWL, args[1], Integer.toString(i));
+		    		int rnd = new Random().nextInt(SUPPORTED_QUERY_TYPES.length-1); //-1 to not allow a re-pick of query-random
+		    		R1.setQueryType(SUPPORTED_QUERY_TYPES[rnd]);
+		    		R1.start();
+	    		}
+	    	} else {
+	    		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
+		    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWOWL, args[1], Integer.toString(i));
+		    		R1.start();
+		    	}
 	    	}
     	} else if (args[0].equals(RestAPITest.SNOWSTORM)) {
-    		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
-	    		RestAPITest R2 = new RestAPITest(RestAPITest.SNOWSTORM, args[1], Integer.toString(i));
-	    		//int rnd = new Random().nextInt(supportedQueryTypes.length);
-	    		//R2.setQueryType(supportedQueryTypes[rnd]);
-	    		R2.start();
+    		if (args[1].equals("query-random")) {
+	    		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
+		    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWSTORM, args[1], Integer.toString(i));
+		    		int rnd = new Random().nextInt(SUPPORTED_QUERY_TYPES.length-1); //-1 to not allow a re-pick of query-random
+		    		R1.setQueryType(SUPPORTED_QUERY_TYPES[rnd]);
+		    		R1.start();
+	    		}
+	    	} else {
+	    		for (int i = 0; i < Integer.parseInt(args[2]); i++) {
+		    		RestAPITest R1 = new RestAPITest(RestAPITest.SNOWSTORM, args[1], Integer.toString(i));
+		    		R1.start();
+		    	}
 	    	}
     	} else {
     		System.out.println("Bad server argument, read the code documentation. Exiting.");

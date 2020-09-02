@@ -1,9 +1,0 @@
-concept-lookup (FHIR)
-
-{"resourceType":"Parameters","parameter":[{"name":"name","valueString":"SNOMED CT"},{"name":"display","valueString":"Hypothermia"}]}
-{"parameter":[{"valueString":"SNOMED CT","name":"name"},{"valueString":"Hypothermia","name":"display"}],"resourceType":"Parameters"}
-
-concept-query (SNOMED CT)
-
-{"id":"386689009","released":true,"active":true,"effectiveTime":"20110131","moduleId":"900000000000207008","iconId":"404684003","definitionStatus":{"id":"900000000000074008"},"subclassDefinitionStatus":"NON_DISJOINT_SUBCLASSES","pt":{"id":"1480830017","term":"Hypothermia","concept":{"id":"386689009"},"type":{"id":"900000000000013009"},"typeId":"900000000000013009","conceptId":"386689009","acceptability":{"900000000000509007":"PREFERRED","900000000000508004":"PREFERRED"}},"ancestorIds":["138875005","118222006","301343009","404684003","-1","250171008","82832008","118227000","105723007"],"parentIds":["123979008"],"statedAncestorIds":["138875005","118222006","301343009","404684003","-1","250171008","82832008","118227000","105723007"],"statedParentIds":["123979008"],"definitionStatusId":"900000000000074008"}
-{"iconId":"404684003","definitionStatus":{"id":"900000000000074008"},"pt":{"concept":{"id":"386689009"},"conceptId":"386689009","term":"Hypothermia","typeId":"900000000000013009","id":"1480830017","type":{"id":"900000000000013009"},"acceptability":{"900000000000509007":"PREFERRED","900000000000508004":"PREFERRED"}},"effectiveTime":"20110131","parentIds":["123979008"],"definitionStatusId":"900000000000074008","active":true,"statedParentIds":["123979008"],"statedAncestorIds":["138875005","118222006","301343009","404684003","-1","250171008","82832008","118227000","105723007"],"subclassDefinitionStatus":"NON_DISJOINT_SUBCLASSES","ancestorIds":["138875005","118222006","301343009","404684003","-1","250171008","82832008","118227000","105723007"],"id":"386689009","moduleId":"900000000000207008","released":true}

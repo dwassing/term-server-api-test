@@ -1,5 +1,5 @@
 # Terminology Server API testing tool
-SNOMED CT Rest API endpoint querying/testing tool for master thesis. Uses threads to simulate many clients.
+Rest API endpoint querying/testing tool for master thesis. Uses threads to simulate many clients.
 
 Supported servers: Snowstorm, SNOW OWL. Easily scalable to support more servers if required.
 

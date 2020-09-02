@@ -113,6 +113,15 @@ public class RestAPITest implements Runnable
     	return this.conceptId;
     }
     
+    //The thread starting function implemented from Runnable.
+  	public void start() {
+  		System.out.println("Starting " + threadName + queryType + threadId);
+  		if (thread == null) {
+  			thread = new Thread(this, threadName);
+  			thread.start ();
+  		}
+  	}
+  	
     //Run method overridden from Runnable
 	@Override
 	public void run() 
@@ -237,15 +246,6 @@ public class RestAPITest implements Runnable
 		}
 		return returnValues;
     }
-	
-    //The thread starting function implemented from Runnable.
-	public void start() {
-		System.out.println("Starting " + threadName + queryType + threadId);
-		if (thread == null) {
-			thread = new Thread(this, threadName);
-			thread.start ();
-		}
-	}
 	
 	//Helper to return random concept id for testing purposes.
 	private static int getRandom(int[] array) 

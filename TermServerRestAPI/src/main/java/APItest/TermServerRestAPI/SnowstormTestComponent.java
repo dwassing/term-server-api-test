@@ -1,6 +1,6 @@
 package APItest.TermServerRestAPI;
 
-//this class will be rewritten using maps, after superclass is converted to an interface
+//this class will be rewritten using maps and helper functions for data manipulation
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,7 +11,7 @@ public class SnowstormTestComponent extends TestComponent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getEndpointTerminology(String queryType) {
+	protected String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
 			return "SNOMED CT";
@@ -36,7 +36,7 @@ public class SnowstormTestComponent extends TestComponent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getEndpointPath(String queryType) {
+	protected String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
 			return "MAIN/concepts/";
@@ -61,7 +61,7 @@ public class SnowstormTestComponent extends TestComponent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
+	protected String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
 		case "concept-query":
 			return Integer.toString(codeA);
@@ -89,7 +89,7 @@ public class SnowstormTestComponent extends TestComponent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getFhirIndexStorage(String queryType) {
+	protected int getFhirIndexStorage(String queryType) {
 		switch(queryType) {
 		case "concept-lookup":
 			return 1;
@@ -106,7 +106,7 @@ public class SnowstormTestComponent extends TestComponent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getInterestingJsonKeyValues(String queryType) {
+	protected String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":
 			return "term";

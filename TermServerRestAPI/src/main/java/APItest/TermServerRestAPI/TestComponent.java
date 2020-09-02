@@ -17,14 +17,14 @@ public abstract class TestComponent {
 	 * @param queryType The type of query as specified by arguments
 	 * @return The terminology associated with the query
 	 */
-	public abstract String getEndpointTerminology(String queryType);
+	protected abstract String getEndpointTerminology(String queryType);
 	
 	/**
 	 * Returns the path needed to access the direct endpoint, depending on type of query done.
 	 * @param queryType The type of query as specified by arguments
 	 * @return The path, e.g. fhir/ConceptMap/ or similar.
 	 */
-	public abstract String getEndpointPath(String queryType);
+	protected abstract String getEndpointPath(String queryType);
 	
 	/**
 	 * Returns additional information such as extra parameters, codeA and codeB are typically SNOMED CT concept ids.
@@ -35,19 +35,19 @@ public abstract class TestComponent {
 	 * @return The associated information needed for the API endpoint.
 	 * @throws UnsupportedEncodingException
 	 */
-	public abstract String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException;
+	protected abstract String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException;
 	
 	/**
 	 * In case of FHIR, return index of param we are looking for. TODO: Rewrite this later, as we only return one item currently.
 	 * @param queryType The type of query as specified by arguments
 	 * @return The index for the FHIR Mapper to check.
 	 */
-	public abstract int getFhirIndexStorage(String queryType);
+	protected abstract int getFhirIndexStorage(String queryType);
 	
 	/**
 	 * Retrieves information from JSON objects from the SNOMED CT API, gathers all values associated with <key>.
 	 * @param queryType The type of query as specified by arguments
 	 * @return Every value associated with target (the key).
 	 */
-	public abstract String getInterestingJsonKeyValues(String queryType);
+	protected abstract String getInterestingJsonKeyValues(String queryType);
 }

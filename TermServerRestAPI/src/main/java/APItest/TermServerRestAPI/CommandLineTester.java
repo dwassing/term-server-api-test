@@ -23,7 +23,7 @@ public class CommandLineTester
 		Logger.getLogger("ca.uhn.fhir.util.VersionUtil").setLevel(Level.OFF);
 		Logger.getLogger("ca.uhn.fhir.context.ModelScanner").setLevel(Level.OFF);
 		Logger.getRootLogger().setLevel(Level.OFF);
-		if (args[0].equals("help")){
+		if ((args.length == 0) || (args[0].equals("help"))) {
 			System.out.print("The server API tester may be invoked using the following arguments: \n");
 			System.out.print("<server> <queryType> <# threads> and optionally either a <conceptid> or <searchTerm> \n");
 			System.out.print("Supported servers: snowstorm, snowowl. \n");
@@ -32,8 +32,8 @@ public class CommandLineTester
 			System.out.print("Addendum 1: if no concept-id is provided, one will be picked at random. \n");
 			System.out.print("Addendum 2: if using searchTerm, concatenate several words with the '+' sign. \n");
 			System.out.print("Addendum 3: query-random will pick any of the other query types. \n");
-		} else if((args[0]==null) || !(args[0].equals(RestAPITest.SNOWOWL) || args[0].equals(RestAPITest.SNOWSTORM))) {
-    		System.out.println("First argument MUST NOT be null and MUST be a supported terminology server.");
+		} else if(!(args[0].equals(RestAPITest.SNOWOWL) || args[0].equals(RestAPITest.SNOWSTORM))) {
+    		System.out.println("First argument MUST NOT be null and MUST be a supported terminology server, invoke the tester with the help argument for documentation..");
 	    } else if (!(Arrays.stream(SUPPORTED_QUERY_TYPES).anyMatch(args[1]::equals))){
 	    	System.out.println("Wrong query type specified in second argument. Check supported types.");
 	    } else if (args.length > 3){ //If we have more than 3 arguments then it is a fully custom Rest API test. The constructor then deduces what type of test we are doing.

@@ -179,7 +179,9 @@ public class RestAPITest implements Runnable
 	 * @throws ProtocolException
 	 */
 	private String getRawJsonDataFromHost(String host, String path, String info) throws MalformedURLException, IOException, ProtocolException{
-    	URL url = new URL(host + path + info);
+    	
+		//TODO: Return json here directly instead, unnecessary to de-serialize into string only to make a new json object from it.
+		URL url = new URL(host + path + info);
 
     	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		if (this.threadName.equals(SNOWOWL)) {

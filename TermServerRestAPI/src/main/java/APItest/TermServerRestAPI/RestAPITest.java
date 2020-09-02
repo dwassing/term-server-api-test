@@ -29,15 +29,13 @@ public class RestAPITest implements Runnable
 	private String host;
 	private long startTestTime;
 	private long endTestTime;
-
-	private static TestComponent testComponent;
+	
 	/**
-	 * NOTE on static above:
+	 * NOTE on static mpdifier:
 	 * static would cause problems with threading IF several servers were tested at once, but we do not consider this a realistic scenario
 	 * for the scope of this tool. If such a scenario ever appears, simply remove static and adjust methods as required.
 	 */
-	//private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
-    //private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
+	private static TestComponent testComponent;
    
     private int conceptId = 404684003; //clinical finding
     private static final int[] conceptIds = {373476007, 404684003, 386689009, 75367002, //midazolam, clinical finding, hypothermia, blood pressure 

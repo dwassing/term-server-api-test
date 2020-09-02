@@ -16,11 +16,6 @@ public class RestAPITest implements Runnable
 {
 	public static final String SNOWSTORM = "snowstorm";
    	public static final String SNOWOWL = "snowowl";
-
-	/**
-     * Supported query types are: concept-query, concept-finder, concept-lookup, concept-active, concept-subsumption, concept-translation (snowstorm only), concept-validation
-     * Additional note about concept-finder, do not run more than a single thread of this query, it returns a lot of information.
-     */
 	
 	private Thread thread;
 	private String threadName;
@@ -31,7 +26,7 @@ public class RestAPITest implements Runnable
 	private long endTestTime;
 	
 	/**
-	 * NOTE on static mpdifier:
+	 * NOTE on static modifier:
 	 * static would cause problems with threading IF several servers were tested at once, but we do not consider this a realistic scenario
 	 * for the scope of this tool. If such a scenario ever appears, simply remove static and adjust methods as required.
 	 */
@@ -45,10 +40,10 @@ public class RestAPITest implements Runnable
     
     /**
      * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types.
-     * @param name
-     * @param type
-     * @param exthost
-     * @param externalconceptIds
+     * @param name The name of the thread.
+     * @param type The query type, see help documents.
+     * @param id The thread id.
+     * @param externalConceptId The concept id we are interested in
      */
     public RestAPITest(String name, String type, String id, int externalConceptId) 
     {
@@ -64,10 +59,10 @@ public class RestAPITest implements Runnable
     
     /**
      * Constructor for testing using an external search term, see javadoc for supported query types.
-     * @param name
-     * @param type
-     * @param exthost
-     * @param externalSearchTerm
+     * @param name The name of the thread.
+     * @param type The query type, see help documents.
+     * @param id The thread id.
+     * @param externalSearchTerm The search term for free text search.
      */
     public RestAPITest(String name, String type, String id, String externalSearchTerm)
     {
@@ -84,9 +79,9 @@ public class RestAPITest implements Runnable
     
     /**
      * Default constructor for a thread within the rest API test.
-     * @param name
-     * @param type
-     * @param id
+     * @param name The name of the thread.
+     * @param type The query type, see help documents.
+     * @param id The thread id.
      */
     public RestAPITest(String name, String type, String id) 
     {
@@ -182,10 +177,10 @@ public class RestAPITest implements Runnable
 	/**
 	 * Function to perform the REST API connection. Creates an URL to an endpoint given host, path and info. Then extracts
 	 * json data from that endpoint. If necessary, extra characters are prepended and appended to create a proper JSON notation.
-	 * @param host
-	 * @param path
-	 * @param info
-	 * @return
+	 * @param host The host, e.g. http://localhost:8080/snowowl/
+	 * @param path The path, e.g. fhir/ConceptMap/
+	 * @param info The specific information to build the API call such as params.
+	 * @return The resulting JSON object from the API call as a string.
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws ProtocolException
@@ -226,11 +221,11 @@ public class RestAPITest implements Runnable
 	/**
 	 * Given a FHIR JSON object notation, this function returns any key value one may be interested in. Experimental function
 	 * that uses the HAPI FHIR IParser, see FHIRMapper class. That class currently only returns one item.
-	 * @param jsonString
-	 * @param targetValue
-	 * @param targetIndex
-	 * @param terminologyType
-	 * @return
+	 * @param jsonString A String representation of the json object.
+	 * @param targetValue The key for the json value we are after.
+	 * @param targetIndex An internally fetched index for the HAPI FHIR IParser.
+	 * @param terminologyType The terminology dictates what method we use to retrieve values.
+	 * @return The resulting values from our API call that we care about.
 	 */
     private ArrayList<String> getTheValues(String jsonString, String targetValue, int targetIndex, String terminologyType){
     	ArrayList<String> returnValues = new ArrayList<String>();
@@ -258,9 +253,9 @@ public class RestAPITest implements Runnable
 	 * Given a proper JSON object notation (with any type of nested objects and/or arrays), this function
 	 * returns any key value associated with target key. If target key appears more than once, all values
 	 * are returned. This function is primarily used for SNOMED CT API calls.
-	 * @param jsonObj
-	 * @param target
-	 * @return
+	 * @param jsonObj The object.
+	 * @param target The target key of the object.
+	 * @return The value(s) of the key (target).
 	 */
 	private static ArrayList<String> getJsonKeyValue(JSONObject jsonObj, String target)
 	{
@@ -298,8 +293,8 @@ public class RestAPITest implements Runnable
 	
 	/**
 	 * Helper function to prune the JSONArray that may be the keyValue of the target we seek.
-	 * @param keyValue
-	 * @return
+	 * @param keyValue A JSON Array containing what we are after.
+	 * @return An ArrayList of the values formerly in the JSON Array.
 	 */
 	private static ArrayList<String> pruneKeyValue(JSONArray keyValue) {
 		ArrayList<String> returnValues = new ArrayList<String>();

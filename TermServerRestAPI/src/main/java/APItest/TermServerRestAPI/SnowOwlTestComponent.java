@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 
 public class SnowOwlTestComponent extends TestComponent {
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -31,7 +33,9 @@ public class SnowOwlTestComponent extends TestComponent {
 		return "";
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		//almost everything relevant is found in the concepts endpoint
@@ -55,7 +59,9 @@ public class SnowOwlTestComponent extends TestComponent {
 		return "";
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
 		case "concept-query":
@@ -79,8 +85,9 @@ public class SnowOwlTestComponent extends TestComponent {
 		return "";
 	}
 	
-	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getFhirIndexStorage(String queryType) {
 		switch(queryType) {
 		case "concept-lookup":
@@ -95,7 +102,9 @@ public class SnowOwlTestComponent extends TestComponent {
 		return -1;
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":

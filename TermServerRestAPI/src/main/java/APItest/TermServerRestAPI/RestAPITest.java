@@ -30,8 +30,14 @@ public class RestAPITest implements Runnable
 	private long startTestTime;
 	private long endTestTime;
 
-    private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
-    private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
+	private static TestComponent testComponent;
+	/**
+	 * NOTE on static above:
+	 * static would cause problems with threading IF several servers were tested at once, but we do not consider this a realistic scenario
+	 * for the scope of this tool. If such a scenario ever appears, simply remove static and adjust methods as required.
+	 */
+	//private static final SnowOwlTestComponent snowOwlTestComponent = new SnowOwlTestComponent();
+    //private static final SnowstormTestComponent snowstormTestComponent = new SnowstormTestComponent();
    
     private int conceptId = 404684003; //clinical finding
     private static final int[] conceptIds = {373476007, 404684003, 386689009, 75367002, //midazolam, clinical finding, hypothermia, blood pressure 
@@ -137,15 +143,14 @@ public class RestAPITest implements Runnable
 	 */
 	private void runServerTest() {
 		try {
-			TestComponent testComponent = new TestComponent();
 			this.startTestTime = System.currentTimeMillis();
 			if (this.threadName.equals(SNOWOWL)) {
-				testComponent = snowOwlTestComponent;
+				testComponent = new SnowOwlTestComponent();
 				if (this.host == null) {
 					this.host = "http://localhost:8080/snowowl/";
 				}
 			} else if (this.threadName.equals(SNOWSTORM)) {
-				testComponent = snowstormTestComponent;
+				testComponent = new SnowstormTestComponent();
 				if (this.host == null) {
 					this.host = "http://localhost:8080/";
 				}

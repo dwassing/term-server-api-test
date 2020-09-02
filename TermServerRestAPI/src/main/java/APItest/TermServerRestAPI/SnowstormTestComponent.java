@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 
 public class SnowstormTestComponent extends TestComponent {
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getEndpointTerminology(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -31,7 +33,9 @@ public class SnowstormTestComponent extends TestComponent {
 		return "";
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getEndpointPath(String queryType) {
 		switch(queryType) {
 		case "concept-query":
@@ -54,7 +58,9 @@ public class SnowstormTestComponent extends TestComponent {
 		return "";
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
 		case "concept-query":
@@ -77,11 +83,12 @@ public class SnowstormTestComponent extends TestComponent {
 			return "$validate-code?system=http://snomed.info/sct&code=" + Integer.toString(codeA) + 
 					"&url=http://snomed.info/sct/900000000000207008/version/20200309?fhir_vs=refset/723264001"; //ICD-10 complex map reference set 447562003 available as well
 		}
-		return "";
-		
+		return "";	
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getFhirIndexStorage(String queryType) {
 		switch(queryType) {
 		case "concept-lookup":
@@ -96,7 +103,9 @@ public class SnowstormTestComponent extends TestComponent {
 		return -1;
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
 		case "concept-query":

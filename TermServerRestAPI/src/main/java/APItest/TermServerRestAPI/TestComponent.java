@@ -10,54 +10,44 @@ import java.io.UnsupportedEncodingException;
  * @author wassing
  *
  */
-public class TestComponent {
+public abstract class TestComponent {
 	
 	/**
 	 * Returns either SNOMED CT or FHIR depending on what endpoint we are interested in.
-	 * @param queryType
-	 * @return
+	 * @param queryType The type of query as specified by arguments
+	 * @return The terminology associated with the query
 	 */
-	public String getEndpointTerminology(String queryType) {
-		return "";
-	}
+	public abstract String getEndpointTerminology(String queryType);
 	
 	/**
 	 * Returns the path needed to access the direct endpoint, depending on type of query done.
-	 * @param queryType
-	 * @return
+	 * @param queryType The type of query as specified by arguments
+	 * @return The path, e.g. fhir/ConceptMap/ or similar.
 	 */
-	public String getEndpointPath(String queryType) {
-		return "";
-	}
+	public abstract String getEndpointPath(String queryType);
 	
 	/**
-	 * Returns additional information such as extra parameters, codeB is randomly generated for testing purposes.
-	 * @param queryType
-	 * @param codeA
-	 * @param codeB
-	 * @param searchTerm
-	 * @return
+	 * Returns additional information such as extra parameters, codeA and codeB are typically SNOMED CT concept ids.
+	 * @param queryType The type of query as specified by arguments
+	 * @param codeA The concept id to be tested
+	 * @param codeB Extra for subsumption testing
+	 * @param searchTerm The free search text
+	 * @return The associated information needed for the API endpoint.
 	 * @throws UnsupportedEncodingException
 	 */
-	public String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
-		return "";
-	}
+	public abstract String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException;
 	
 	/**
-	 * In case of FHIR, return index of param we are looking for
-	 * @param queryType
-	 * @return
+	 * In case of FHIR, return index of param we are looking for. TODO: Rewrite this later, as we only return one item currently.
+	 * @param queryType The type of query as specified by arguments
+	 * @return The index for the FHIR Mapper to check.
 	 */
-	public int getFhirIndexStorage(String queryType) {
-		return -1;
-	}
+	public abstract int getFhirIndexStorage(String queryType);
 	
 	/**
-	 * In case of SNOMED CT, returns the values of the JSON objects that we are interested in
-	 * @param queryType
-	 * @return
+	 * Retrieves information from JSON objects from the SNOMED CT API, gathers all values associated with <key>.
+	 * @param queryType The type of query as specified by arguments
+	 * @return Every value associated with target (the key).
 	 */
-	public String getInterestingJsonKeyValues(String queryType) {
-		return "";
-	}
+	public abstract String getInterestingJsonKeyValues(String queryType);
 }

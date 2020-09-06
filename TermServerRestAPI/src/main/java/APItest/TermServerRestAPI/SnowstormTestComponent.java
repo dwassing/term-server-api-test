@@ -13,7 +13,7 @@ public class SnowstormTestComponent extends TestComponent {
 	 */
 	protected String getEndpointTerminology(String queryType) {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return "SNOMED CT";
 		case "concept-finder":
 			return "SNOMED CT";
@@ -38,7 +38,7 @@ public class SnowstormTestComponent extends TestComponent {
 	 */
 	protected String getEndpointPath(String queryType) {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return "MAIN/concepts/";
 		case "concept-finder":
 			return "MAIN/concepts/";
@@ -63,7 +63,7 @@ public class SnowstormTestComponent extends TestComponent {
 	 */
 	protected String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return Integer.toString(codeA);
 		case "concept-finder":
 			return "?term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString()) + "&offset=0&limit=500";
@@ -108,7 +108,7 @@ public class SnowstormTestComponent extends TestComponent {
 	 */
 	protected String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return "term";
 		case "concept-finder":
 			return "term";

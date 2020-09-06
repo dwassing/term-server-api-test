@@ -13,7 +13,7 @@ public class SnowOwlTestComponent extends TestComponent {
 	 */
 	protected String getEndpointTerminology(String queryType) {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return "SNOMED CT";
 		case "concept-finder":
 			return "SNOMED CT";
@@ -39,7 +39,7 @@ public class SnowOwlTestComponent extends TestComponent {
 	protected String getEndpointPath(String queryType) {
 		switch(queryType) {
 		//almost everything relevant is found in the concepts endpoint
-		case "concept-query":
+		case "concept-info":
 			return "snomed-ct/v3/MAIN/concepts/";
 		case "concept-finder":
 			return "snomed-ct/v3/MAIN/concepts"; //Deliberately not including a slash
@@ -64,7 +64,7 @@ public class SnowOwlTestComponent extends TestComponent {
 	 */
 	protected String getEndpointInfo(String queryType, int codeA, int codeB, String searchTerm) throws UnsupportedEncodingException {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return Integer.toString(codeA) + "?expand=pt()"; //expanding to include the preferred term (not the FSN)
 		case "concept-finder":
 			return "?expand=" + URLEncoder.encode("pt(), fsn()", StandardCharsets.UTF_8.toString()) + "&limit=500&term=" + URLEncoder.encode(searchTerm, StandardCharsets.UTF_8.toString()); //can use expand=fsn()
@@ -107,7 +107,7 @@ public class SnowOwlTestComponent extends TestComponent {
 	 */
 	protected String getInterestingJsonKeyValues(String queryType) {
 		switch(queryType) {
-		case "concept-query":
+		case "concept-info":
 			return "term";
 		case "concept-finder":
 			return "term";

@@ -27,7 +27,7 @@ public class RestAPITest implements Runnable
 	
 	/**
 	 * NOTE on static modifier:
-	 * static would cause problems with threading IF several servers were tested at once, but we do not consider this a realistic scenario
+	 * Static would cause problems with threading IF several servers were tested at once, but we do not consider this a realistic scenario
 	 * for the scope of this tool. If such a scenario ever appears, simply remove static and adjust methods as required.
 	 */
 	private static TestComponent testComponent;
@@ -39,57 +39,38 @@ public class RestAPITest implements Runnable
     private String searchTerm = "blood pressure"; //search terms: blood pressure, shoulder fracture, covid
     
     /**
-     * Constructor for external testing using sample concept(s) to a supplied server, see javadoc for supported query types.
-     * @param name The name of the thread.
-     * @param type The query type, see help documents.
-     * @param id The thread id.
-     * @param externalConceptId The concept id we are interested in
-     */
-    public RestAPITest(String name, String type, String id, int externalConceptId) 
-    {
-        threadName = name;
-        queryType = type;
-        threadId = id;
-        if(externalConceptId != 0)
-        {
-        	conceptId = externalConceptId;
-        }
-        System.out.println("Creating " + threadName + queryType + threadId + " with concept id: " + Integer.toString(externalConceptId));
-    }
-    
-    /**
-     * Constructor for testing using an external search term, see javadoc for supported query types.
-     * @param name The name of the thread.
-     * @param type The query type, see help documents.
-     * @param id The thread id.
-     * @param externalSearchTerm The search term for free text search.
-     */
-    public RestAPITest(String name, String type, String id, String externalSearchTerm)
-    {
-    	threadName = name;
-    	queryType = type;
-    	threadId = id;
-    	if(externalSearchTerm != null && externalSearchTerm.length() > 0)
-        {
-        	searchTerm=externalSearchTerm;
-        }
-        
-        System.out.println("Creating " + threadName + queryType + threadId + " with search term: " + externalSearchTerm);
-    }
-    
-    /**
      * Default constructor for a thread within the rest API test.
      * @param name The name of the thread.
      * @param type The query type, see help documents.
      * @param id The thread id.
+     * @param externalHost Any supplied external host, must be of syntax http://_address_/
+     * @param externalConceptId Any specific concept id desired
+     * @param externalSearchTerm Any free text search term
      */
-    public RestAPITest(String name, String type, String id) 
-    {
-        threadName = name;
-        queryType = type;
-        threadId = id;
-        conceptId = getRandom(conceptIds);
-        System.out.println("Creating " + threadName + queryType + threadId);
+    public RestAPITest(String name, String type, String id, String externalHost, String externalConceptId, String externalSearchTerm) {
+    	String createmsg = "Creating ";
+    	threadName = name;
+    	createmsg += threadName;
+    	queryType = type;
+    	createmsg += queryType;
+    	threadId = id;
+    	createmsg += threadId;
+    	if (externalHost != null) {
+    		host = externalHost;
+    		createmsg += " host: " + host;
+    	}
+    	if (externalConceptId != null) {
+    		conceptId = Integer.parseInt(externalConceptId);
+    		createmsg += " concept: " + conceptId;
+    	} else {
+    		conceptId = getRandom(conceptIds);
+    	}
+    	if (externalSearchTerm != null) {
+    		searchTerm = externalSearchTerm;
+    		createmsg += " search term: " + searchTerm;
+    	}
+    	//we set host depending on threadName (snowstorm or snowowl) if host is null.
+    	System.out.println(createmsg);
     }
     
     public void setQueryType(String type) {
@@ -164,7 +145,9 @@ public class RestAPITest implements Runnable
 			String terminologyType = testComponent.getEndpointTerminology(this.queryType);
 			//URL is made up of: host and port, server-name, path-to-endpoint, endpoint-specific-info
 			//System.out.println(host + path + info); //debug
+			
 			String json = getRawJsonDataFromHost(this.host, path, info);
+			this.endTestTime = System.currentTimeMillis() - this.startTestTime;
 			ArrayList<String> values = getTheValues(json, targetValue, targetIndex, terminologyType);
 			String output = "Values: " + values + "; time elapsed: " + Long.toString(this.endTestTime) + " millisec."; //
 			Writer outputWriter = new Writer("/home/wassing/Documents/Git/Exjobb/term-server-api-test/results.txt");
@@ -214,7 +197,6 @@ public class RestAPITest implements Runnable
 		if (json.charAt(0) != '{') { //some endpoints return arrays instead of json objects (with arrays inside of them)
 			json = "{\"extra\":" + json + '}';
 		}
-		this.endTestTime = System.currentTimeMillis() - this.startTestTime;
 		return json;
     }
     

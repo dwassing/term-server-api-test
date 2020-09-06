@@ -23,13 +23,14 @@ public class CommandLineTester
 		Logger.getLogger("ca.uhn.fhir.context.ModelScanner").setLevel(Level.OFF);
 		Logger.getRootLogger().setLevel(Level.OFF);
 		if ((Arrays.stream(args).anyMatch("-help"::equals)) || args.length == 0) {
-			System.out.print("The server API tester may be invoked using the following arguments like -arg=value: \n");
-			System.out.print("Required: -server -queryType -requests. Optional: -host -conceptid, -searchTerm \n");
+			System.out.print("The server API tester may be invoked using the following arguments with -arg=value. \n");
+			System.out.print("Required: -server -query -requests. Optional: -host -conceptid, -search \n");
 			System.out.print("Supported servers: snowstorm, snowowl. \n");
-			System.out.print("Suppored queryTypes: concept-info, concept-finder, concept-top, concept-active, ");
+			System.out.print("Suppored queries: concept-info, concept-finder, concept-top, concept-active, ");
 			System.out.print("concept-lookup, concept-subsumption, concept-validation, concept-translation, query-random \n");
+			System.out.print("-requests refers to the amount of threads (clients) that will send a request. \n");
 			System.out.print("Addendum 1: if no concept-id is provided, one will be picked at random. \n");
-			System.out.print("Addendum 2: if using searchTerm, concatenate several words with the '+' sign. \n");
+			System.out.print("Addendum 2: if using search, concatenate several words with the '+' sign. \n");
 			System.out.print("Addendum 3: query-random will pick any of the other query types. \n");
 		} else{
 			
